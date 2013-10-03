@@ -1,6 +1,6 @@
 <?php
 
-namespace Arachne\Doctrine;
+namespace Arachne\Doctrine\Validation;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
