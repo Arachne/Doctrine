@@ -3,6 +3,7 @@
 namespace Arachne\Doctrine\DI;
 
 use Nette\DI\CompilerExtension;
+use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
@@ -13,9 +14,15 @@ use Kdyby\Validator\DI\ValidatorExtension;
 class DoctrineExtension extends CompilerExtension
 {
 
+	/** @var array */
+	public $defaults = array(
+		'entities' => array(),
+	);
+
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
+		$config = $this->getConfig($this->defaults);
 
 		$builder->addDefinition($this->prefix('managerRegistry'))
 			->setClass('Doctrine\Common\Persistence\ManagerRegistry')
@@ -23,8 +30,8 @@ class DoctrineExtension extends CompilerExtension
 
 		if (class_exists('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
-				->setClass('Arachne\EntityLoader\IConverter')
-				->setFactory('Arachne\Doctrine\EntityLoader\DoctrineConverter');
+				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter')
+				->addTag(EntityLoaderExtension::TAG_CONVERTER, $config['entities']);
 		}
 
 		if (class_exists('Kdyby\Events\DI\EventsExtension')) {
@@ -35,15 +42,15 @@ class DoctrineExtension extends CompilerExtension
 
 		if (class_exists('Kdyby\Validator\DI\ValidatorExtension')) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
-				->setFactory('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
+				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 		}
 
 		if (class_exists('Arachne\Forms\DI\FormsExtension')) {
 			$builder->addDefinition($this->prefix('forms.typeGuesser'))
-				->setClass('Symfony\Component\Form\FormTypeGuesserInterface')
-				->setFactory('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
-				->addTag(FormsExtension::TAG_TYPE_GUESSER);
+				->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
+				->addTag(FormsExtension::TAG_TYPE_GUESSER)
+				->setAutowired(FALSE);
 
 			$builder->addDefinition($this->prefix('forms.type.entity'))
 				->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
