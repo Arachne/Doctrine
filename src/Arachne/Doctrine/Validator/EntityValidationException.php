@@ -1,6 +1,6 @@
 <?php
 
-namespace Arachne\Doctrine\Validation;
+namespace Arachne\Doctrine\Validator;
 
 /**
 * @author Michael Moravec

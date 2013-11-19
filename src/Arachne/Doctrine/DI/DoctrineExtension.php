@@ -22,8 +22,8 @@ class DoctrineExtension extends CompilerExtension
 			->setFactory('Arachne\Doctrine\ManagerRegistry');
 
         if (class_exists('Kdyby\Events\DI\EventsExtension')) {
-			$builder->addDefinition($this->prefix('validator.validationListener'))
-				->setClass('Arachne\Doctrine\Validation\ValidatorListener')
+			$builder->addDefinition($this->prefix('validator.validatorListener'))
+				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 				->addTag(EventsExtension::SUBSCRIBER_TAG);
 		}
 
