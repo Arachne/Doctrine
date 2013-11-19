@@ -21,13 +21,13 @@ class DoctrineExtension extends CompilerExtension
 			->setClass('Doctrine\Common\Persistence\ManagerRegistry')
 			->setFactory('Arachne\Doctrine\ManagerRegistry');
 
-        if (class_exists('Kdyby\Events\DI\EventsExtension')) {
+		if (class_exists('Kdyby\Events\DI\EventsExtension')) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 				->addTag(EventsExtension::SUBSCRIBER_TAG);
 		}
 
-        if (class_exists('Kdyby\Validator\DI\ValidatorExtension')) {
+		if (class_exists('Kdyby\Validator\DI\ValidatorExtension')) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setFactory('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
