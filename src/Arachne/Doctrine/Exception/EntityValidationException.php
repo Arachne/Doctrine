@@ -1,6 +1,6 @@
 <?php
 
-namespace Arachne\Doctrine\Validator;
+namespace Arachne\Doctrine\Exception;
 
 /**
 * @author Michael Moravec

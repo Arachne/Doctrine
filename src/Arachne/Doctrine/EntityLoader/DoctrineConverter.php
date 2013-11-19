@@ -46,7 +46,7 @@ class DoctrineConverter extends Object implements IConverter
 	public function entityToParameter($type, $entity)
 	{
 		if (!isset($entity->id) || $entity->id === NULL || !$entity instanceof $type) {
-			throw new \Nette\InvalidStateException('Entity is not instance of the class given in annotation or the column \'id\' is not specified.');
+			throw new InvalidArgumentException('Entity is not instance of the class given in annotation or the column \'id\' is not specified.');
 		}
 		return $entity->id;
 	}
