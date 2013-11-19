@@ -21,6 +21,12 @@ class DoctrineExtension extends CompilerExtension
 			->setClass('Doctrine\Common\Persistence\ManagerRegistry')
 			->setFactory('Arachne\Doctrine\ManagerRegistry');
 
+		if (class_exists('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
+			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
+				->setClass('Arachne\EntityLoader\IConverter')
+				->setFactory('Arachne\Doctrine\EntityLoader\DoctrineConverter');
+		}
+
 		if (class_exists('Kdyby\Events\DI\EventsExtension')) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
