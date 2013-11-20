@@ -67,7 +67,7 @@ class DoctrineConverter extends Object implements IConverter
 		if (!array_key_exists($class, $this->repositories)) {
 			$this->repositories[$class] = $this->managerRegistry->getManagerForClass($class)->getRepository($class);
 		}
-        return $this->repositories[$class];
+		return $this->repositories[$class];
 	}
 
 }
