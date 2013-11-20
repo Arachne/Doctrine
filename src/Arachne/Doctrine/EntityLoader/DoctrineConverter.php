@@ -32,6 +32,15 @@ class DoctrineConverter extends Object implements IConverter
 
 	/**
 	 * @param string $type
+	 * @return bool
+	 */
+	public function canConvert($type)
+	{
+		return (bool) $this->getRepository($type);
+	}
+
+	/**
+	 * @param string $type
 	 * @param mixed $value
 	 * @return object
 	 * @throws BadRequestException
@@ -60,12 +69,17 @@ class DoctrineConverter extends Object implements IConverter
 
 	/**
 	 * @param string $class
-	 * @return EntityRepository
+	 * @return EntityRepository|null
 	 */
 	private function getRepository($class)
 	{
 		if (!array_key_exists($class, $this->repositories)) {
-			$this->repositories[$class] = $this->managerRegistry->getManagerForClass($class)->getRepository($class);
+			$manager = $this->managerRegistry->getManagerForClass($class);
+			if ($manager) {
+                $this->repositories[$class] = $manager->getRepository($class);
+			} else {
+				return NULL;
+			}
 		}
 		return $this->repositories[$class];
 	}
