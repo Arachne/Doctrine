@@ -28,8 +28,8 @@
 		"arachne/forms": "Integrates Symfony forms to Nette."
 	},
 	"autoload": {
-		"psr-0": {
-			"Arachne\\Doctrine": "src/"
+		"psr-4": {
+			"Arachne\\Doctrine\\": "src/"
 		}
 	}
 }
