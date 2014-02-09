@@ -3,7 +3,6 @@
 namespace Arachne\Doctrine\EntityLoader;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Arachne\EntityLoader\Entity;
 use Arachne\EntityLoader\IConverter;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
@@ -47,7 +46,8 @@ class DoctrineConverter extends Object implements IConverter
 	 */
 	public function parameterToEntity($type, $value)
 	{
-		$entity = $this->getRepository($type)->findOneBy(array('id' => $value));
+		// TODO: findOneBy for array or custom queries
+		$entity = $this->getRepository($type)->find($value);
 		if (!$entity) {
 			throw new BadRequestException("Desired entity of type '$type' could not be found.");
 		}
@@ -61,8 +61,12 @@ class DoctrineConverter extends Object implements IConverter
 	 */
 	public function entityToParameter($type, $entity)
 	{
-		if (!isset($entity->id) || $entity->id === NULL || !$entity instanceof $type) {
-			throw new InvalidArgumentException('Entity is not instance of the class given in annotation or the column \'id\' is not specified.');
+		if (!$entity instanceof $type) {
+			throw new InvalidArgumentException("Given entity is not instance of '$type'.");
+		}
+		$field = $this->getRepository($type)->getClassMetadata()->getSingleIdentifierFieldName();
+		if ($entity->$field === NULL) {
+			throw new InvalidArgumentException("Missing value for identifier field '$field'.");
 		}
 		return (string) $entity->id;
 	}
@@ -78,7 +82,7 @@ class DoctrineConverter extends Object implements IConverter
 			if ($manager) {
                 $this->repositories[$class] = $manager->getRepository($class);
 			} else {
-				return NULL;
+				return;
 			}
 		}
 		return $this->repositories[$class];
