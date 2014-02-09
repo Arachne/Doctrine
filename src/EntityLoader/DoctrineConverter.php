@@ -46,9 +46,15 @@ class DoctrineConverter extends Object implements IConverter
 	 */
 	public function parameterToEntity($type, $value)
 	{
-		// TODO: findOneBy for array or custom queries
-		$entity = $this->getRepository($type)->find($value);
-		if (!$entity) {
+		$repository = $this->getRepository($type);
+		if ($value instanceof IQuery) {
+			$entity = $value->getEntity($repository);
+		} elseif (is_array($value)) {
+			$entity = $repository->findOneBy($value);
+		} else {
+			$entity = $repository->find($value);
+		}
+		if (!$entity instanceof $type) {
 			throw new BadRequestException("Desired entity of type '$type' could not be found.");
 		}
 		return $entity;
