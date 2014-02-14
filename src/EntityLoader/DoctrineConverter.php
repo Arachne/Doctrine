@@ -74,7 +74,7 @@ class DoctrineConverter extends Object implements IConverter
 		if ($entity->$field === NULL) {
 			throw new InvalidArgumentException("Missing value for identifier field '$field'.");
 		}
-		return (string) $entity->id;
+		return (string) $entity->$field;
 	}
 
 	/**
