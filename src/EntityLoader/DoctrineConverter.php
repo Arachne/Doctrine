@@ -3,6 +3,7 @@
 namespace Arachne\Doctrine\EntityLoader;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\IConverter;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
