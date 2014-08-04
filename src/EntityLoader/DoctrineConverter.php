@@ -5,6 +5,7 @@ namespace Arachne\Doctrine\EntityLoader;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\IConverter;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
 use Nette\Object;
@@ -21,6 +22,9 @@ class DoctrineConverter extends Object implements IConverter
 	/** @var EntityRepository[] */
 	private $repositories;
 
+	/** @var EntityManager[] */
+	private $managers;
+
 	/**
 	 * @param ManagerRegistry
 	 */
@@ -28,6 +32,7 @@ class DoctrineConverter extends Object implements IConverter
 	{
 		$this->managerRegistry = $managerRegistry;
 		$this->repositories = array();
+		$this->managers = array();
 	}
 
 	/**
@@ -71,7 +76,8 @@ class DoctrineConverter extends Object implements IConverter
 		if (!$entity instanceof $type) {
 			throw new InvalidArgumentException("Given entity is not instance of '$type'.");
 		}
-		$field = $this->getRepository($type)->getClassMetadata()->getSingleIdentifierFieldName();
+		$this->getRepository($type);
+		$field = $this->managers[$type]->getClassMetadata($type)->getSingleIdentifierFieldName();
 		if ($entity->$field === NULL) {
 			throw new InvalidArgumentException("Missing value for identifier field '$field'.");
 		}
@@ -87,6 +93,7 @@ class DoctrineConverter extends Object implements IConverter
 		if (!array_key_exists($class, $this->repositories)) {
 			$manager = $this->managerRegistry->getManagerForClass($class);
 			if ($manager) {
+				$this->managers[$class] = $manager;
                 $this->repositories[$class] = $manager->getRepository($class);
 			} else {
 				return;
