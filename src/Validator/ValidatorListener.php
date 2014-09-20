@@ -6,7 +6,7 @@ use Arachne\Doctrine\Exception\EntityValidationException;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 use Kdyby\Events\Subscriber;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @author Michael Moravec
