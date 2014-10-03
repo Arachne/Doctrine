@@ -94,7 +94,7 @@ class DoctrineConverter extends Object implements IConverter
 			$manager = $this->managerRegistry->getManagerForClass($class);
 			if ($manager) {
 				$this->managers[$class] = $manager;
-                $this->repositories[$class] = $manager->getRepository($class);
+				$this->repositories[$class] = $manager->getRepository($class);
 			} else {
 				return;
 			}

@@ -7,6 +7,6 @@ use Doctrine\ORM\EntityRepository;
 interface IQuery
 {
 
-	public function getEntity(EntityRepository $dao);
+	public function getEntity(EntityRepository $repository);
 
 }
