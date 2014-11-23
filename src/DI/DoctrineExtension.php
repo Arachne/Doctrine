@@ -28,25 +28,36 @@ class DoctrineExtension extends CompilerExtension
 			->setClass('Doctrine\Common\Persistence\ManagerRegistry')
 			->setFactory('Arachne\Doctrine\ManagerRegistry');
 
-		if (class_exists('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
+		if ($extensions = $this->compiler->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
+			$extension = $extensions[0];
+
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
 				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter')
 				->addTag(EntityLoaderExtension::TAG_CONVERTER, $config['entities']);
+
+			$builder->addDefinition($this->prefix('entityLoader.converterResolverFactory'))
+				->setFactory('Arachne\Doctrine\EntityLoader\ResolverFactory', [ 'resolverFactory' => $extension->prefix('@converterResolverFactory') ])
+				->setAutowired(FALSE);
+
+			$builder->getDefinition($extension->prefix('entityLoader'))
+				->setArguments([
+					'converterResolver' => new Statement('?->create()', array($this->prefix('@converterResolverFactory'))),
+				]);
 		}
 
-		if (class_exists('Kdyby\Events\DI\EventsExtension')) {
+		if ($this->compiler->getExtensions('Kdyby\Events\DI\EventsExtension')) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 				->addTag(EventsExtension::SUBSCRIBER_TAG);
 		}
 
-		if (class_exists('Kdyby\Validator\DI\ValidatorExtension')) {
+		if ($this->compiler->getExtensions('Kdyby\Validator\DI\ValidatorExtension')) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 		}
 
-		if (class_exists('Arachne\Forms\DI\FormsExtension')) {
+		if ($this->compiler->getExtensions('Arachne\Forms\DI\FormsExtension')) {
 			$builder->addDefinition($this->prefix('forms.typeGuesser'))
 				->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
 				->addTag(FormsExtension::TAG_TYPE_GUESSER)

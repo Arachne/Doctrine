@@ -4,7 +4,7 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Arachne\Doctrine\Exception\InvalidArgumentException;
-use Arachne\EntityLoader\IConverter;
+use Arachne\EntityLoader\ConverterInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
@@ -13,7 +13,7 @@ use Nette\Object;
 /**
  * @author Jáchym Toušek
  */
-class DoctrineConverter extends Object implements IConverter
+class DoctrineConverter extends Object implements ConverterInterface
 {
 
 	/** @var ManagerRegistry */
@@ -39,7 +39,7 @@ class DoctrineConverter extends Object implements IConverter
 	 * @param string $type
 	 * @return bool
 	 */
-	public function canConvert($type)
+	public function entityExists($type)
 	{
 		return (bool) $this->getRepository($type);
 	}
@@ -50,7 +50,7 @@ class DoctrineConverter extends Object implements IConverter
 	 * @return object
 	 * @throws BadRequestException
 	 */
-	public function parameterToEntity($type, $value)
+	public function filterIn($type, $value)
 	{
 		$repository = $this->getRepository($type);
 		if ($value instanceof IQuery) {
@@ -71,7 +71,7 @@ class DoctrineConverter extends Object implements IConverter
 	 * @param object $entity
 	 * @return string
 	 */
-	public function entityToParameter($type, $entity)
+	public function filterOut($type, $entity)
 	{
 		if (!$entity instanceof $type) {
 			throw new InvalidArgumentException("Given entity is not instance of '$type'.");
