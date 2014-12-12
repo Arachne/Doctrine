@@ -24,10 +24,6 @@ class DoctrineExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
 
-		$builder->addDefinition($this->prefix('managerRegistry'))
-			->setClass('Doctrine\Common\Persistence\ManagerRegistry')
-			->setFactory('Arachne\Doctrine\ManagerRegistry');
-
 		if ($extensions = $this->compiler->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
 			$extension = $extensions[0];
 
