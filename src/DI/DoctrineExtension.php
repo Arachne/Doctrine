@@ -14,22 +14,15 @@ use Kdyby\Validator\DI\ValidatorExtension;
 class DoctrineExtension extends CompilerExtension
 {
 
-	/** @var array */
-	public $defaults = array(
-		'entities' => array(),
-	);
-
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->getConfig($this->defaults);
 
 		if ($extensions = $this->compiler->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
 			$extension = $extensions[0];
 
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
-				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter')
-				->addTag(EntityLoaderExtension::TAG_CONVERTER, $config['entities']);
+				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
 
 			$builder->addDefinition($this->prefix('entityLoader.converterResolverFactory'))
 				->setFactory('Arachne\Doctrine\EntityLoader\ResolverFactory', [ 'resolverFactory' => $extension->prefix('@converterResolverFactory') ])
@@ -37,7 +30,7 @@ class DoctrineExtension extends CompilerExtension
 
 			$builder->getDefinition($extension->prefix('entityLoader'))
 				->setArguments([
-					'converterResolver' => new Statement('?->create()', array($this->prefix('@converterResolverFactory'))),
+					'converterResolver' => new Statement('?->create()', array($this->prefix('@entityLoader.converterResolverFactory'))),
 				]);
 		}
 
