@@ -53,7 +53,7 @@ class DoctrineConverter extends Object implements ConverterInterface
 	public function filterIn($type, $value)
 	{
 		$repository = $this->getRepository($type);
-		if ($value instanceof IQuery) {
+		if ($value instanceof QueryInterface) {
 			$entity = $value->getEntity($repository);
 		} elseif (is_array($value)) {
 			$entity = $repository->findOneBy($value);

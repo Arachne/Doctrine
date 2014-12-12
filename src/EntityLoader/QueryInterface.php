@@ -4,7 +4,7 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Doctrine\ORM\EntityRepository;
 
-interface IQuery
+interface QueryInterface
 {
 
 	public function getEntity(EntityRepository $repository);
