@@ -3,10 +3,10 @@
 namespace Arachne\Doctrine\DI;
 
 use Nette\DI\CompilerExtension;
-use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
+use Nette\DI\Statement;
 
 /**
  * @author Jáchym Toušek
@@ -19,7 +19,7 @@ class DoctrineExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		if ($extensions = $this->compiler->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
-			$extension = $extensions[0];
+			$extension = reset($extensions);
 
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
 				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
