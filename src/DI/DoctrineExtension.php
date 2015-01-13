@@ -24,13 +24,13 @@ class DoctrineExtension extends CompilerExtension
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
 				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
 
-			$builder->addDefinition($this->prefix('entityLoader.converterResolverFactory'))
-				->setFactory('Arachne\Doctrine\EntityLoader\ResolverFactory', [ 'resolverFactory' => $extension->prefix('@converterResolverFactory') ])
+			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
+				->setFactory('Arachne\Doctrine\EntityLoader\ConverterResolver', [ 'resolver' => $extension->prefix('@converterResolver') ])
 				->setAutowired(FALSE);
 
 			$builder->getDefinition($extension->prefix('entityLoader'))
 				->setArguments([
-					'converterResolver' => new Statement('?->create()', array($this->prefix('@entityLoader.converterResolverFactory'))),
+					'converterResolver' => $this->prefix('@entityLoader.converterResolver'),
 				]);
 		}
 
