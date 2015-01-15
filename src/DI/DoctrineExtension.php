@@ -25,7 +25,10 @@ class DoctrineExtension extends CompilerExtension
 				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
 
 			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
-				->setFactory('Arachne\Doctrine\EntityLoader\ConverterResolver', [ 'resolver' => $extension->prefix('@converterResolver') ])
+				->setClass('Arachne\Doctrine\EntityLoader\ConverterResolver')
+				->setArguments([
+					'resolver' => $extension->prefix('@converterResolver'),
+				])
 				->setAutowired(FALSE);
 
 			$builder->getDefinition($extension->prefix('entityLoader'))

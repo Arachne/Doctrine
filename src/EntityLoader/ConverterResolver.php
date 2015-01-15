@@ -2,7 +2,7 @@
 
 namespace Arachne\Doctrine\EntityLoader;
 
-use Arachne\DI\Resolver\ResolverInterface;
+use Arachne\DIHelpers\ResolverInterface;
 use Nette\Object;
 
 /**
@@ -11,13 +11,13 @@ use Nette\Object;
 class ConverterResolver extends Object implements ResolverInterface
 {
 
-	/** @var callable */
+	/** @var ResolverInterface */
 	private $resolver;
 	
 	/** @var DoctrineConverter */
 	private $converter;
 
-	public function __construct(callable $resolver, DoctrineConverter $converter)
+	public function __construct(ResolverInterface $resolver, DoctrineConverter $converter)
 	{
 		$this->resolver = $resolver;
 		$this->converter = $converter;
@@ -29,7 +29,7 @@ class ConverterResolver extends Object implements ResolverInterface
 	 */
 	public function __invoke($name)
 	{
-		return $this->resolver->__invoke($name) ?: ($this->converter->entityExists($name) ? $this->converter : NULL);
+		return $this->resolver->resolve($name) ?: ($this->converter->entityExists($name) ? $this->converter : NULL);
 	}
 
 }
