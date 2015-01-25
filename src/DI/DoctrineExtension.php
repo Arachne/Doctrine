@@ -2,11 +2,11 @@
 
 namespace Arachne\Doctrine\DI;
 
-use Nette\DI\CompilerExtension;
+use Arachne\DIHelpers\CompilerExtension;
+use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
-use Nette\DI\Statement;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -18,38 +18,38 @@ class DoctrineExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extensions = $this->compiler->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension')) {
-			$extension = reset($extensions);
-
-			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
-				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
-
-			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
-				->setClass('Arachne\Doctrine\EntityLoader\ConverterResolver')
-				->setArguments([
-					'resolver' => $extension->prefix('@converterResolver'),
-				])
-				->setAutowired(FALSE);
-
+		if ($extension = $this->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension', FALSE)) {
 			$builder->getDefinition($extension->prefix('entityLoader'))
 				->setArguments([
 					'converterResolver' => $this->prefix('@entityLoader.converterResolver'),
 				]);
+
+			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
+				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
+
+			$extension = $this->getExtensions('Arachne\DIHelpers\DI\DIHelpersExtension');
+
+			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
+				->setClass('Arachne\Doctrine\EntityLoader\ConverterResolver')
+				->setArguments([
+					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_CONVERTER),
+				])
+				->setAutowired(FALSE);
 		}
 
-		if ($this->compiler->getExtensions('Kdyby\Events\DI\EventsExtension')) {
+		if ($this->getExtensions('Kdyby\Events\DI\EventsExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
-				->addTag(EventsExtension::SUBSCRIBER_TAG);
+				->addTag(EventsExtension::TAG_SUBSCRIBER);
 		}
 
-		if ($this->compiler->getExtensions('Kdyby\Validator\DI\ValidatorExtension')) {
+		if ($this->getExtensions('Kdyby\Validator\DI\ValidatorExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 		}
 
-		if ($this->compiler->getExtensions('Arachne\Forms\DI\FormsExtension')) {
+		if ($this->getExtensions('Arachne\Forms\DI\FormsExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('forms.typeGuesser'))
 				->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
 				->addTag(FormsExtension::TAG_TYPE_GUESSER)
