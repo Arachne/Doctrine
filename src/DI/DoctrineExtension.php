@@ -9,7 +9,7 @@ use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\DI\Statement;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class DoctrineExtension extends CompilerExtension
 {

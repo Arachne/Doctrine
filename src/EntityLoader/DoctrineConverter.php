@@ -11,7 +11,7 @@ use Nette\Application\BadRequestException;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class DoctrineConverter extends Object implements ConverterInterface
 {

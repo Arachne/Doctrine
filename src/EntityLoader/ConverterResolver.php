@@ -6,7 +6,7 @@ use Arachne\DIHelpers\ResolverInterface;
 use Nette\Object;
 
 /**
- * @author Jáchym Toušek
+ * @author Jáchym Toušek <enumag@gmail.com>
  */
 class ConverterResolver extends Object implements ResolverInterface
 {
