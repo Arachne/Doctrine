@@ -3,22 +3,17 @@
 	"type": "library",
 	"keywords": [ "nette", "arachne", "symfony", "doctrine" ],
 	"homepage": "http://enumag.cz",
-	"license": [ "BSD-3-Clause", "GPL-2.0", "GPL-3.0" ],
 	"authors": [
 		{
 			"name": "Jáchym Toušek",
-			"homepage": "http://m33.cz/",
+			"homepage": "http://enumag.cz",
 			"email": "enumag@gmail.com"
 		}
 	],
 	"require": {
 		"php": ">=5.3.2",
-		"nette/di": "~2.2",
-		"kdyby/doctrine": "~2.2"
-	},
-	"require-dev": {
-		"squizlabs/php_codesniffer": "~1.4",
-		"arachne/coding-style": "~0.2"
+		"kdyby/doctrine": "~2.2",
+		"nette/di": "~2.2"
 	},
 	"suggest": {
 		"kdyby/validator": "Provides validation for doctrine entities.",
