@@ -24,9 +24,9 @@ class ValidatorListener implements Subscriber
 
 	public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			Events::onFlush,
-		);
+		];
 	}
 
 	public function onFlush(OnFlushEventArgs $args)
