@@ -18,7 +18,7 @@ class DoctrineExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtensions('Arachne\EntityLoader\DI\EntityLoaderExtension', FALSE)) {
+		if ($extension = $this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', FALSE)) {
 			$builder->getDefinition($extension->prefix('entityLoader'))
 				->setArguments([
 					'converterResolver' => $this->prefix('@entityLoader.converterResolver'),
@@ -27,7 +27,7 @@ class DoctrineExtension extends CompilerExtension
 			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
 				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
 
-			$extension = $this->getExtensions('Arachne\DIHelpers\DI\DIHelpersExtension');
+			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
 
 			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
 				->setClass('Arachne\Doctrine\EntityLoader\ConverterResolver')
@@ -37,19 +37,19 @@ class DoctrineExtension extends CompilerExtension
 				->setAutowired(FALSE);
 		}
 
-		if ($this->getExtensions('Kdyby\Events\DI\EventsExtension', FALSE)) {
+		if ($this->getExtension('Kdyby\Events\DI\EventsExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 				->addTag(EventsExtension::TAG_SUBSCRIBER);
 		}
 
-		if ($this->getExtensions('Kdyby\Validator\DI\ValidatorExtension', FALSE)) {
+		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 		}
 
-		if ($this->getExtensions('Arachne\Forms\DI\FormsExtension', FALSE)) {
+		if ($this->getExtension('Arachne\Forms\DI\FormsExtension', FALSE)) {
 			$builder->addDefinition($this->prefix('forms.typeGuesser'))
 				->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
 				->addTag(FormsExtension::TAG_TYPE_GUESSER)
