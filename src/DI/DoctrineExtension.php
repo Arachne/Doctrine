@@ -18,7 +18,7 @@ class DoctrineExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', FALSE)) {
+		if ($extension = $this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
 			$builder->getDefinition($extension->prefix('entityLoader'))
 				->setArguments([
 					'converterResolver' => $this->prefix('@entityLoader.converterResolver'),
@@ -34,31 +34,31 @@ class DoctrineExtension extends CompilerExtension
 				->setArguments([
 					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_CONVERTER),
 				])
-				->setAutowired(FALSE);
+				->setAutowired(false);
 		}
 
-		if ($this->getExtension('Kdyby\Events\DI\EventsExtension', FALSE)) {
+		if ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
 			$builder->addDefinition($this->prefix('validator.validatorListener'))
 				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 				->addTag(EventsExtension::TAG_SUBSCRIBER);
 		}
 
-		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', FALSE)) {
+		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 		}
 
-		if ($this->getExtension('Arachne\Forms\DI\FormsExtension', FALSE)) {
+		if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
 			$builder->addDefinition($this->prefix('forms.typeGuesser'))
 				->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
 				->addTag(FormsExtension::TAG_TYPE_GUESSER)
-				->setAutowired(FALSE);
+				->setAutowired(false);
 
 			$builder->addDefinition($this->prefix('forms.type.entity'))
 				->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
 				->addTag(FormsExtension::TAG_TYPE, 'entity')
-				->setAutowired(FALSE);
+				->setAutowired(false);
 		}
 	}
 

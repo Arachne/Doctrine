@@ -33,7 +33,7 @@ class ConverterResolver extends Object implements IteratorAggregate, ResolverInt
 	 */
 	public function resolve($name)
 	{
-		return $this->resolver->resolve($name) ?: ($this->converter->entityExists($name) ? $this->converter : NULL);
+		return $this->resolver->resolve($name) ?: ($this->converter->entityExists($name) ? $this->converter : null);
 	}
 
 	/**
