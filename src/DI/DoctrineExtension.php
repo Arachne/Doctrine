@@ -18,35 +18,31 @@ class DoctrineExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		if ($extension = $this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
-			$builder->getDefinition($extension->prefix('entityLoader'))
-				->setArguments([
-					'converterResolver' => $this->prefix('@entityLoader.converterResolver'),
-				]);
+		if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
+			$builder->addDefinition($this->prefix('entityLoader.filterInResolver'))
+				->setClass('Arachne\Doctrine\EntityLoader\FilterInResolver')
+				->setAutowired(false);
 
-			$builder->addDefinition($this->prefix('entityLoader.doctrineConverter'))
-				->setClass('Arachne\Doctrine\EntityLoader\DoctrineConverter');
+			$builder->addDefinition($this->prefix('entityLoader.filterOutResolver'))
+				->setClass('Arachne\Doctrine\EntityLoader\FilterOutResolver')
+				->setAutowired(false);
 
 			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_IN, $this->prefix('entityLoader.filterInResolver'));
+			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_OUT, $this->prefix('entityLoader.filterOutResolver'));
 
-			$builder->addDefinition($this->prefix('entityLoader.converterResolver'))
-				->setClass('Arachne\Doctrine\EntityLoader\ConverterResolver')
-				->setArguments([
-					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_CONVERTER),
-				])
-				->setAutowired(false);
-		}
-
-		if ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
-			$builder->addDefinition($this->prefix('validator.validatorListener'))
-				->setClass('Arachne\Doctrine\Validator\ValidatorListener')
-				->addTag(EventsExtension::TAG_SUBSCRIBER);
 		}
 
 		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
+
+			if ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+				$builder->addDefinition($this->prefix('validator.validatorListener'))
+					->setClass('Arachne\Doctrine\Validator\ValidatorListener')
+					->addTag(EventsExtension::TAG_SUBSCRIBER);
+			}
 		}
 
 		if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
@@ -59,6 +55,25 @@ class DoctrineExtension extends CompilerExtension
 				->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
 				->addTag(FormsExtension::TAG_TYPE, 'entity')
 				->setAutowired(false);
+		}
+	}
+
+	public function beforeCompile()
+	{
+		$builder = $this->getContainerBuilder();
+
+		if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
+			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+
+			$builder->getDefinition($this->prefix('entityLoader.filterInResolver'))
+				->setArguments([
+					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_FILTER_IN, false),
+				]);
+
+			$builder->getDefinition($this->prefix('entityLoader.filterOutResolver'))
+				->setArguments([
+					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_FILTER_OUT, false),
+				]);
 		}
 	}
 
