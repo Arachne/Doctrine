@@ -1,0 +1,11 @@
+error_level: "E_ALL"
+
+class_name: IntegrationSuiteGuy
+
+modules:
+    enabled:
+        - Arachne\Codeception\Module\Nette
+        - Arachne\Codeception\Module\Doctrine
+    config:
+        Arachne\Codeception\Module\Doctrine:
+            dump: tests/integration/data/dump.sql

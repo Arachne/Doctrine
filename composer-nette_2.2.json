@@ -1,20 +1,9 @@
 {
-	"name": "arachne/doctrine",
-	"type": "library",
-	"keywords": [ "nette", "arachne", "symfony", "doctrine" ],
-	"homepage": "http://enumag.cz",
-	"authors": [
-		{
-			"name": "Jáchym Toušek",
-			"homepage": "http://enumag.cz",
-			"email": "enumag@gmail.com"
-		}
-	],
 	"require": {
 		"php": ">=5.4.0",
 		"arachne/di-helpers": "~0.3.1",
 		"kdyby/doctrine": "~2.2",
-		"nette/di": "~2.2"
+		"nette/di": "~2.2.0"
 	},
 	"suggest": {
 		"kdyby/validator": "Provides validation for doctrine entities.",
@@ -28,11 +17,9 @@
         "arachne/entity-loader": "~0.7.1",
 		"codeception/codeception": "~2.0",
 		"codeception/mockery-module": "~0.2",
-        "kdyby/console": "~2.4.0@dev",
 		"mockery/mockery": "~0.9",
-		"nette/di": "~2.3",
-		"squizlabs/php_codesniffer": "~2.0",
-		"tracy/tracy": "~2.3"
+		"nette/nette": "~2.2.0",
+		"squizlabs/php_codesniffer": "~2.0"
 	},
 	"autoload": {
 		"psr-4": {

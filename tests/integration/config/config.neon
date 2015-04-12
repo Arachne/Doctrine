@@ -1,0 +1,27 @@
+common:
+	extensions:
+		arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
+		arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+		arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+		kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
+		kdyby.events: Kdyby\Events\DI\EventsExtension
+		kdyby.doctrine: Kdyby\Doctrine\DI\ORMExtension
+
+	services:
+
+	kdyby.doctrine:
+		user: root
+		password:
+		dbname: testdb
+
+nette_2.2 < common:
+	extensions:
+		nette: Nette\Bridges\Framework\NetteExtension
+
+nette_2.3 < common:
+	extensions:
+		kdyby.console: Kdyby\Console\DI\ConsoleExtension
+		nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension
+		nette.caching: Nette\Bridges\CacheDI\CacheExtension
+		nette.http: Nette\Bridges\HttpDI\HttpExtension
+		nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension
