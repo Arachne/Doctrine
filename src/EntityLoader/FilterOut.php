@@ -29,7 +29,7 @@ class FilterOut extends Object implements FilterOutInterface
 	 */
 	public function filterOut($entity)
 	{
-		$id = $entity->{$this->field};
+		$id = $entity->{'get' . $this->field}();
 		if ($id === null) {
 			throw new InvalidArgumentException("Missing value for identifier field '$this->field'.");
 		}
