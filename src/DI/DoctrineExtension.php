@@ -30,7 +30,6 @@ class DoctrineExtension extends CompilerExtension
 			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
 			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_IN, $this->prefix('entityLoader.filterInResolver'));
 			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_OUT, $this->prefix('entityLoader.filterOutResolver'));
-
 		}
 
 		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {

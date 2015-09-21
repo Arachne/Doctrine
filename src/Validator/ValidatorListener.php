@@ -50,7 +50,7 @@ class ValidatorListener implements Subscriber
 			return;
 		}
 
-		// taken from UnitOfWork::objToStr()
+		// Copied from UnitOfWork::objToStr().
 		$entityIdentifier = method_exists($entity, '__toString') ? (string) $entity : get_class($entity) . '@' . spl_object_hash($entity);
 
 		throw new EntityValidationException('Entity ' . $entityIdentifier . ' is not valid: ' . $violations);
