@@ -1,13 +1,12 @@
 common:
 	extensions:
-		arachne.dihelpers: Arachne\DIHelpers\DI\DIHelpersExtension
+		arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
 		arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
 		arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
 		kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
 		kdyby.events: Kdyby\Events\DI\EventsExtension
 		kdyby.doctrine: Kdyby\Doctrine\DI\ORMExtension
-
-	services:
+		oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
 	kdyby.doctrine:
 		user: root

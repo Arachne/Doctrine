@@ -1,7 +1,7 @@
 {
 	"require": {
 		"php": ">=5.4.0",
-		"arachne/di-helpers": "~0.3.1",
+		"arachne/di-helpers": "~0.4.0",
 		"kdyby/doctrine": "~2.2",
 		"nette/di": "~2.2.0"
 	},
@@ -12,12 +12,10 @@
 	},
 	"require-dev": {
 		"php": ">=5.5.0",
-		"arachne/codeception": "~0.6.0",
+		"arachne/codeception": "~0.6.3",
 		"arachne/coding-style": "~0.3.0",
-        "arachne/entity-loader": "~0.7.1",
-		"codeception/codeception": "~2.1",
-		"codeception/mockery-module": "~0.2",
-		"mockery/mockery": "~0.9",
+		"arachne/entity-loader": "~0.8.3",
+		"codeception/codeception": "~2.1.0",
 		"nette/nette": "~2.2.0",
 		"squizlabs/php_codesniffer": "~2.0"
 	},

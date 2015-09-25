@@ -44,9 +44,9 @@ class DoctrineExtension extends CompilerExtension
 				->setClass('Arachne\Doctrine\EntityLoader\FilterOutResolver')
 				->setAutowired(false);
 
-			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
-			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_IN, $this->prefix('entityLoader.filterInResolver'));
-			$extension->overrideResolver(EntityLoaderExtension::TAG_FILTER_OUT, $this->prefix('entityLoader.filterOutResolver'));
+			$extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
+			$extension->override(EntityLoaderExtension::TAG_FILTER_IN, $this->prefix('entityLoader.filterInResolver'));
+			$extension->override(EntityLoaderExtension::TAG_FILTER_OUT, $this->prefix('entityLoader.filterOutResolver'));
 		}
 
 		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
@@ -79,16 +79,16 @@ class DoctrineExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
-			$extension = $this->getExtension('Arachne\DIHelpers\DI\DIHelpersExtension');
+			$extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false);
 
 			$builder->getDefinition($this->prefix('entityLoader.filterInResolver'))
 				->setArguments([
-					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_FILTER_IN, false),
+					'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
 				]);
 
 			$builder->getDefinition($this->prefix('entityLoader.filterOutResolver'))
 				->setArguments([
-					'resolver' => '@' . $extension->getResolver(EntityLoaderExtension::TAG_FILTER_OUT, false),
+					'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
 				]);
 		}
 	}
