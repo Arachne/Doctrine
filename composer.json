@@ -2,6 +2,7 @@
 	"name": "arachne/doctrine",
 	"type": "library",
 	"keywords": [ "nette", "arachne", "symfony", "doctrine" ],
+	"license": "MIT",
 	"homepage": "http://enumag.cz",
 	"authors": [
 		{
