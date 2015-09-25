@@ -7,6 +7,7 @@ use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
+use Nette\Utils\Validators;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -14,8 +15,16 @@ use Kdyby\Validator\DI\ValidatorExtension;
 class DoctrineExtension extends CompilerExtension
 {
 
+	/** @var array */
+	public $defaults = [
+		'validateOnFlush' => false,
+	];
+
 	public function loadConfiguration()
 	{
+		$this->validateConfig($this->defaults);
+		Validators::assertField($this->config, 'validateOnFlush', 'bool');
+
 		$builder = $this->getContainerBuilder();
 
 		if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
@@ -37,7 +46,7 @@ class DoctrineExtension extends CompilerExtension
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
 				->addTag(ValidatorExtension::TAG_INITIALIZER);
 
-			if ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+			if ($this->config['validateOnFlush'] && $this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
 				$builder->addDefinition($this->prefix('validator.validatorListener'))
 					->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 					->addTag(EventsExtension::TAG_SUBSCRIBER);
