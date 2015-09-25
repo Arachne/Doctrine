@@ -4,6 +4,7 @@ namespace Tests\Integration;
 
 use Arachne\EntityLoader\EntityUnloader;
 use Codeception\TestCase\Test;
+use Doctrine\ORM\EntityManagerInterface;
 use Tests\Integration\Classes\Article;
 use Tests\Integration\Classes\Page;
 
@@ -12,7 +13,7 @@ class FilterOutTest extends Test
 
 	public function testId()
 	{
-		$em = $this->guy->grabService(\Doctrine\ORM\EntityManagerInterface::class);
+		$em = $this->guy->grabService(EntityManagerInterface::class);
 		$article = $em->find(Article::class, 1);
 		$this->assertInstanceOf(Article::class, $article);
 		$entityUnloader = $this->guy->grabService(EntityUnloader::class);
@@ -22,7 +23,7 @@ class FilterOutTest extends Test
 
 	public function testProxy()
 	{
-		$em = $this->guy->grabService(\Doctrine\ORM\EntityManagerInterface::class);
+		$em = $this->guy->grabService(EntityManagerInterface::class);
 		$page = $em->createQueryBuilder()
 			->select('p')
 			->from(Page::class, 'p')
