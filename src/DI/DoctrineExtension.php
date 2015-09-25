@@ -15,6 +15,7 @@ use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
+use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 
 /**
@@ -59,6 +60,10 @@ class DoctrineExtension extends CompilerExtension
 					->setClass('Arachne\Doctrine\Validator\ValidatorListener')
 					->addTag(EventsExtension::TAG_SUBSCRIBER);
 			}
+		}
+
+		if ($this->config['validateOnFlush'] && !$builder->hasDefinition($this->prefix('validator.validatorListener'))) {
+			throw new AssertionException("The 'validateOnFlush' option requires Kdyby\Validator\DI\ValidatorExtension and Kdyby\Events\DI\EventsExtension.");
 		}
 
 		if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
