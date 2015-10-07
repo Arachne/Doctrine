@@ -13,6 +13,7 @@ namespace Arachne\Doctrine\DI;
 use Arachne\DIHelpers\CompilerExtension;
 use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\Forms\DI\FormsExtension;
+use Kdyby\DoctrineCache\DI\Helpers;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\Utils\AssertionException;
@@ -27,7 +28,13 @@ class DoctrineExtension extends CompilerExtension
 	/** @var array */
 	public $defaults = [
 		'validateOnFlush' => false,
+		'expressionLanguageCache' => 'default',
 	];
+
+	public function __construct($debugMode = false)
+	{
+		$this->defaults['debug'] = $debugMode;
+	}
 
 	public function loadConfiguration()
 	{
@@ -76,6 +83,14 @@ class DoctrineExtension extends CompilerExtension
 				->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
 				->addTag(FormsExtension::TAG_TYPE, 'entity')
 				->setAutowired(false);
+		}
+
+		if ($this->getExtension('Arachne\ExpressionLanguage\DI\ExpressionLanguageExtension', false)) {
+			$builder->addDefinition($this->prefix('expressionLanguage.parserCache'))
+				->setClass('Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface')
+				->setFactory('Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache', [
+					'cache' => Helpers::processCache($this, $config['expressionLanguageCache'], 'expressionLanguage', $config['debug']),
+				]);
 		}
 	}
 
