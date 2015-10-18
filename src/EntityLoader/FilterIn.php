@@ -10,7 +10,6 @@
 
 namespace Arachne\Doctrine\EntityLoader;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Arachne\EntityLoader\FilterInInterface;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
