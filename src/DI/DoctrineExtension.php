@@ -60,7 +60,10 @@ class DoctrineExtension extends CompilerExtension
 		if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
 			$builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator')
-				->addTag(ValidatorExtension::TAG_CONSTRAINT_VALIDATOR, 'Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator');
+				->addTag(ValidatorExtension::TAG_CONSTRAINT_VALIDATOR, [
+					'Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator',
+					'doctrine.orm.validator.unique',
+				]);
 
 			$builder->addDefinition($this->prefix('validator.initializer'))
 				->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
