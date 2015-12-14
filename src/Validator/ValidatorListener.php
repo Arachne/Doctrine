@@ -25,9 +25,13 @@ class ValidatorListener implements Subscriber
 	/** @var ValidatorInterface */
 	private $validator;
 
-	public function __construct(ValidatorInterface $validator)
+	/** @var string[] */
+	private $groups;
+
+	public function __construct(ValidatorInterface $validator, array $groups = null)
 	{
 		$this->validator = $validator;
+		$this->groups = $groups;
 	}
 
 	public function getSubscribedEvents()
@@ -52,7 +56,7 @@ class ValidatorListener implements Subscriber
 
 	protected function validateEntity($entity)
 	{
-		$violations = $this->validator->validate($entity);
+		$violations = $this->validator->validate($entity, null, $this->groups);
 
 		if ($violations->count() === 0) {
 			return;

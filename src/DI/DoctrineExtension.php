@@ -39,7 +39,7 @@ class DoctrineExtension extends CompilerExtension
 	public function loadConfiguration()
 	{
 		$this->validateConfig($this->defaults);
-		Validators::assertField($this->config, 'validateOnFlush', 'bool');
+		Validators::assertField($this->config, 'validateOnFlush', 'bool|list');
 
 		$builder = $this->getContainerBuilder();
 
@@ -72,6 +72,9 @@ class DoctrineExtension extends CompilerExtension
 			if ($this->config['validateOnFlush'] && $this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
 				$builder->addDefinition($this->prefix('validator.validatorListener'))
 					->setClass('Arachne\Doctrine\Validator\ValidatorListener')
+					->setArguments([
+						'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
+					])
 					->addTag(EventsExtension::TAG_SUBSCRIBER);
 			}
 		}
