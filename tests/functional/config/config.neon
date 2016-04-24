@@ -16,6 +16,5 @@ kdyby.events:
     debugger: false
 
 kdyby.doctrine:
-    user: root
-    password:
-    dbname: testdb
+    driver: pdo_sqlite
+    memory: true
