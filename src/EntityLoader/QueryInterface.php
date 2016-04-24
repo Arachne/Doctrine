@@ -17,7 +17,5 @@ use Doctrine\ORM\EntityRepository;
  */
 interface QueryInterface
 {
-
-	public function getEntity(EntityRepository $repository);
-
+    public function getEntity(EntityRepository $repository);
 }

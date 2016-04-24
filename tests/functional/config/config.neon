@@ -1,0 +1,21 @@
+extensions:
+    arachne.dihelpers.resolvers: Arachne\DIHelpers\DI\ResolversExtension
+    arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+    kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    kdyby.console: Kdyby\Console\DI\ConsoleExtension
+    kdyby.events: Kdyby\Events\DI\EventsExtension
+    kdyby.doctrine: Kdyby\Doctrine\DI\ORMExtension
+    nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ], %tempDir% )
+    nette.caching: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+    nette.http: Nette\Bridges\HttpDI\HttpExtension
+    nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension( %debugMode% )
+    oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
+
+kdyby.events:
+    debugger: false
+
+kdyby.doctrine:
+    user: root
+    password:
+    dbname: testdb

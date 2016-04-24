@@ -1,54 +1,45 @@
 {
-	"name": "arachne/doctrine",
-	"type": "library",
-	"keywords": [ "nette", "arachne", "symfony", "doctrine" ],
-	"license": "MIT",
-	"homepage": "http://enumag.cz",
-	"authors": [
-		{
-			"name": "Jáchym Toušek",
-			"homepage": "http://enumag.cz",
-			"email": "enumag@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.4.0",
-		"arachne/di-helpers": "~0.4.0",
-		"kdyby/doctrine": "~2.2|~3.0",
-		"nette/di": "~2.2"
-	},
-	"suggest": {
-		"kdyby/validator": "Provides validation for doctrine entities.",
-		"arachne/entity-loader": "Allows object parameters in application request.",
-		"arachne/forms": "Integrates Symfony forms to Nette."
-	},
-	"require-dev": {
-		"php": ">=5.5.0",
-		"arachne/bootstrap": "~0.2.1",
-		"arachne/codeception": "~0.6.3",
-		"arachne/coding-style": "~0.3.0",
-		"arachne/entity-loader": "~0.8.3",
-		"codeception/codeception": "~2.1.0",
-		"kdyby/console": "~2.4.0",
-		"nette/di": "~2.3",
-		"squizlabs/php_codesniffer": "~2.0",
-		"tracy/tracy": "~2.3"
-	},
-	"autoload": {
-		"psr-4": {
-			"Arachne\\Doctrine\\": "src"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Tests\\Unit\\": "tests/unit/src",
-			"Tests\\Integration\\": "tests/integration/src"
-		}
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "http://packages.m33.cz"
-		}
-	]
+    "name": "arachne/doctrine",
+    "description": "Additional integrations of Doctrine to Kdyby and Arachne packages.",
+    "type": "library",
+    "keywords": [ "nette", "arachne", "symfony", "doctrine" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jáchym Toušek",
+            "homepage": "http://enumag.cz",
+            "email": "enumag@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "arachne/di-helpers": "~0.4.0",
+        "kdyby/doctrine": "^3.0.0",
+        "nette/di": "^2.3.0"
+    },
+    "suggest": {
+        "kdyby/validator": "Provides validation for doctrine entities.",
+        "arachne/entity-loader": "Allows object parameters in application request.",
+        "arachne/forms": "Integrates Symfony forms to Nette."
+    },
+    "require-dev": {
+        "php": ">=5.5.0",
+        "arachne/bootstrap": "~0.2.1",
+        "arachne/codeception": "~0.6.3",
+        "arachne/entity-loader": "~0.8.3",
+        "codeception/codeception": "~2.2.0@rc",
+        "kdyby/console": "^2.4.0",
+        "symfony/event-dispatcher": "^2.8.0",
+        "nette/di": "^2.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arachne\\Doctrine\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Functional\\": "tests/functional/src"
+        }
+    }
 }

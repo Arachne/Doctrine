@@ -1,6 +1,6 @@
 error_level: "E_ALL"
 
-class_name: IntegrationSuiteGuy
+class_name: FunctionalSuiteGuy
 
 modules:
     enabled:
@@ -8,4 +8,4 @@ modules:
         - Arachne\Codeception\Module\Doctrine
     config:
         Arachne\Codeception\Module\Doctrine:
-            dump: tests/integration/data/dump.sql
+            dump: tests/functional/data/dump.sql

@@ -21,46 +21,44 @@ use Nette\Object;
  */
 class FilterOutResolver extends Object implements IteratorAggregate, ResolverInterface
 {
+    /** @var ResolverInterface */
+    private $resolver;
 
-	/** @var ResolverInterface */
-	private $resolver;
+    /** @var ManagerRegistry */
+    protected $managerRegistry;
 
-	/** @var ManagerRegistry */
-	protected $managerRegistry;
+    /** @var FilterOut[] */
+    private $filters;
 
-	/** @var FilterOut[] */
-	private $filters;
+    public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
+    {
+        $this->resolver = $resolver;
+        $this->managerRegistry = $managerRegistry;
+    }
 
-	public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
-	{
-		$this->resolver = $resolver;
-		$this->managerRegistry = $managerRegistry;
-	}
+    /**
+     * @param string $name
+     * @return object
+     */
+    public function resolve($name)
+    {
+        return $this->resolver->resolve($name) ?: (isset($this->filters[$name]) ? $this->filters[$name] : $this->filters[$name] = $this->create($name));
+    }
 
-	/**
-	 * @param string $name
-	 * @return object
-	 */
-	public function resolve($name)
-	{
-		return $this->resolver->resolve($name) ?: (isset($this->filters[$name]) ? $this->filters[$name] : $this->filters[$name] = $this->create($name));
-	}
+    /**
+     * @param string $type
+     * @return FilterOut|null
+     */
+    private function create($type)
+    {
+        $manager = $this->managerRegistry->getManagerForClass($type);
+        if ($manager) {
+            return new FilterOut($manager->getClassMetadata($type)->getSingleIdentifierFieldName());
+        }
+    }
 
-	/**
-	 * @param string $type
-	 * @return FilterOut|null
-	 */
-	private function create($type)
-	{
-		$manager = $this->managerRegistry->getManagerForClass($type);
-		if ($manager) {
-			return new FilterOut($manager->getClassMetadata($type)->getSingleIdentifierFieldName());
-		}
-	}
-
-	public function getIterator()
-	{
-		throw new NotImplementedException();
-	}
-
+    public function getIterator()
+    {
+        throw new NotImplementedException();
+    }
 }
