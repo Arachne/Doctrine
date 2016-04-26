@@ -2,7 +2,6 @@
 
 use Arachne\Bootstrap\Configurator;
 use Arachne\Codeception\Module\Nette;
-use Nette\Bridges\Framework\NetteExtension;
 
 $configurator = new Configurator();
 $tempDir = __DIR__ . '/../_temp/functional_' . md5(time());
