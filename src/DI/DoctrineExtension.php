@@ -18,12 +18,15 @@ use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
+use ReflectionClass;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
 class DoctrineExtension extends CompilerExtension
 {
+    const TAG_SUBSCRIBER = 'arachne.doctrine.subscriber';
+
     /** @var array */
     public $defaults = [
         'validateOnFlush' => false,
@@ -41,6 +44,11 @@ class DoctrineExtension extends CompilerExtension
         Validators::assertField($this->config, 'validateOnFlush', 'bool|list');
 
         $builder = $this->getContainerBuilder();
+
+        if (!$this->getExtension('Kdyby\Events\DI\EventsExtension', false) && $this->getExtension('Arachne\ContainerAdapter\DI\ContainerAdapterExtension', false)) {
+            $builder->addDefinition($this->prefix('eventManager'))
+                ->setClass('Symfony\Bridge\Doctrine\ContainerAwareEventManager');
+        }
 
         if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
             $builder->addDefinition($this->prefix('entityLoader.filterInResolver'))
@@ -122,6 +130,23 @@ class DoctrineExtension extends CompilerExtension
                 ->setArguments([
                     'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
                 ]);
+        }
+
+        $subscribers = $builder->findByTag(self::TAG_SUBSCRIBER);
+        if ($subscribers) {
+            if (!$builder->hasDefinition($this->prefix('eventManager'))) {
+                throw new AssertionException("Subscribers support requires 'Arachne\ContainerAdapter\DI\ContainerAdapterExtension' to be installed and 'Kdyby\Events\DI\EventsExtension' to NOT be installed.", E_USER_NOTICE);
+            }
+
+            $evm = $builder->getDefinition($this->prefix('eventManager'));
+            foreach ($subscribers as $name => $attributes) {
+                $subscriber = $builder->getDefinition($name);
+                $evm->addSetup('?->addEventListener(?, ?)', [
+                    '@self',
+                    (new ReflectionClass($subscriber->getClass()))->newInstanceWithoutConstructor()->getSubscribedEvents(),
+                    $name, // Intentionally without @ for laziness.
+                ]);
+            }
         }
     }
 }
