@@ -45,7 +45,9 @@ class DoctrineExtension extends CompilerExtension
 
         $builder = $this->getContainerBuilder();
 
-        if (!$this->getExtension('Kdyby\Events\DI\EventsExtension', false) && $this->getExtension('Arachne\ContainerAdapter\DI\ContainerAdapterExtension', false)) {
+        $kdybyEvents = $this->getExtension('Kdyby\Events\DI\EventsExtension', false);
+
+        if (!$kdybyEvents && $this->getExtension('Arachne\ContainerAdapter\DI\ContainerAdapterExtension', false)) {
             $builder->addDefinition($this->prefix('eventManager'))
                 ->setClass('Symfony\Bridge\Doctrine\ContainerAwareEventManager');
         }
@@ -76,18 +78,20 @@ class DoctrineExtension extends CompilerExtension
                 ->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
-            if ($this->config['validateOnFlush'] && $this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+            if ($this->config['validateOnFlush'] &&
+                ($kdybyEvents || $builder->hasDefinition($this->prefix('eventManager')))
+            ) {
                 $builder->addDefinition($this->prefix('validator.validatorListener'))
                     ->setClass('Arachne\Doctrine\Validator\ValidatorListener')
                     ->setArguments([
                         'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
                     ])
-                    ->addTag(EventsExtension::TAG_SUBSCRIBER);
+                    ->addTag($kdybyEvents ? EventsExtension::TAG_SUBSCRIBER : self::TAG_SUBSCRIBER);
             }
         }
 
         if ($this->config['validateOnFlush'] && !$builder->hasDefinition($this->prefix('validator.validatorListener'))) {
-            throw new AssertionException("The 'validateOnFlush' option requires Kdyby\Validator\DI\ValidatorExtension and Kdyby\Events\DI\EventsExtension.");
+            throw new AssertionException("The 'validateOnFlush' option requires 'Kdyby\Validator\DI\ValidatorExtension' and either 'Kdyby\Events\DI\EventsExtension' or 'Arachne\ContainerAdapter\DI\ContainerAdapterExtension'.");
         }
 
         if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
