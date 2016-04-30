@@ -18,12 +18,15 @@ use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
+use ReflectionClass;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
 class DoctrineExtension extends CompilerExtension
 {
+    const TAG_SUBSCRIBER = 'arachne.doctrine.subscriber';
+
     /** @var array */
     public $defaults = [
         'validateOnFlush' => false,
@@ -41,6 +44,13 @@ class DoctrineExtension extends CompilerExtension
         Validators::assertField($this->config, 'validateOnFlush', 'bool|list');
 
         $builder = $this->getContainerBuilder();
+
+        $kdybyEvents = $this->getExtension('Kdyby\Events\DI\EventsExtension', false);
+
+        if (!$kdybyEvents && $this->getExtension('Arachne\ContainerAdapter\DI\ContainerAdapterExtension', false)) {
+            $builder->addDefinition($this->prefix('eventManager'))
+                ->setClass('Symfony\Bridge\Doctrine\ContainerAwareEventManager');
+        }
 
         if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
             $builder->addDefinition($this->prefix('entityLoader.filterInResolver'))
@@ -68,18 +78,20 @@ class DoctrineExtension extends CompilerExtension
                 ->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
-            if ($this->config['validateOnFlush'] && $this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+            if ($this->config['validateOnFlush'] &&
+                ($kdybyEvents || $builder->hasDefinition($this->prefix('eventManager')))
+            ) {
                 $builder->addDefinition($this->prefix('validator.validatorListener'))
                     ->setClass('Arachne\Doctrine\Validator\ValidatorListener')
                     ->setArguments([
                         'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
                     ])
-                    ->addTag(EventsExtension::TAG_SUBSCRIBER);
+                    ->addTag($kdybyEvents ? EventsExtension::TAG_SUBSCRIBER : self::TAG_SUBSCRIBER);
             }
         }
 
         if ($this->config['validateOnFlush'] && !$builder->hasDefinition($this->prefix('validator.validatorListener'))) {
-            throw new AssertionException("The 'validateOnFlush' option requires Kdyby\Validator\DI\ValidatorExtension and Kdyby\Events\DI\EventsExtension.");
+            throw new AssertionException("The 'validateOnFlush' option requires 'Kdyby\Validator\DI\ValidatorExtension' and either 'Kdyby\Events\DI\EventsExtension' or 'Arachne\ContainerAdapter\DI\ContainerAdapterExtension'.");
         }
 
         if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
@@ -122,6 +134,23 @@ class DoctrineExtension extends CompilerExtension
                 ->setArguments([
                     'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
                 ]);
+        }
+
+        $subscribers = $builder->findByTag(self::TAG_SUBSCRIBER);
+        if ($subscribers) {
+            if (!$builder->hasDefinition($this->prefix('eventManager'))) {
+                throw new AssertionException("Subscribers support requires 'Arachne\ContainerAdapter\DI\ContainerAdapterExtension' to be installed and 'Kdyby\Events\DI\EventsExtension' to NOT be installed.", E_USER_NOTICE);
+            }
+
+            $evm = $builder->getDefinition($this->prefix('eventManager'));
+            foreach ($subscribers as $name => $attributes) {
+                $subscriber = $builder->getDefinition($name);
+                $evm->addSetup('?->addEventListener(?, ?)', [
+                    '@self',
+                    (new ReflectionClass($subscriber->getClass()))->newInstanceWithoutConstructor()->getSubscribedEvents(),
+                    $name, // Intentionally without @ for laziness.
+                ]);
+            }
         }
     }
 }

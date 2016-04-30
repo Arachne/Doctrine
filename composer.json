@@ -14,21 +14,24 @@
     "require": {
         "php": ">=5.4.0",
         "arachne/di-helpers": "~0.4.0",
-        "kdyby/doctrine": "^3.0.0",
+        "kdyby/doctrine": "dev-events",
         "nette/di": "^2.3.0"
     },
     "suggest": {
         "kdyby/validator": "Provides validation for doctrine entities.",
         "arachne/entity-loader": "Allows object parameters in application request.",
+        "arachne/container-adapter": "Allows a simple EventManager in case you don't want to use Kdyby/Events.",
         "arachne/forms": "Integrates Symfony forms to Nette."
     },
     "require-dev": {
         "php": ">=5.5.0",
         "arachne/bootstrap": "~0.2.1",
         "arachne/codeception": "~0.6.3",
+        "arachne/container-adapter": "~0.1.0",
         "arachne/entity-loader": "~0.8.3",
         "codeception/codeception": "~2.2.0@rc",
         "kdyby/console": "^2.4.0",
+        "symfony/doctrine-bridge": "^2.8.0",
         "symfony/event-dispatcher": "^2.8.0",
         "nette/di": "^2.3.0"
     },
@@ -39,7 +42,14 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Tests\\Integration\\": "tests/integration/src",
             "Tests\\Functional\\": "tests/functional/src"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/enumag/Doctrine.git"
+        }
+    ]
 }

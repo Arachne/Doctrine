@@ -1,0 +1,20 @@
+extensions:
+    arachne.containeradapter: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
+    arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+    nette.caching: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+    kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    kdyby.events: Kdyby\Events\DI\EventsExtension
+    kdyby.doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+kdyby.doctrine:
+    driver: pdo_sqlite
+    memory: true
+
+kdyby.events:
+    debugger: false
+
+services:
+    subscriber:
+        class: Tests\Integration\Fixtures\Subscriber
+        tags:
+            - arachne.doctrine.subscriber
