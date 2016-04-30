@@ -18,4 +18,3 @@ kdyby.events:
 kdyby.doctrine:
     driver: pdo_sqlite
     memory: true
-    autoGenerateProxyClasses: 2

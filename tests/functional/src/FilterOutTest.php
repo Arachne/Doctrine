@@ -23,6 +23,9 @@ class FilterOutTest extends Test
     public function testProxy()
     {
         $em = $this->guy->grabService(EntityManagerInterface::class);
+
+        $em->getProxyFactory()->generateProxyClasses($em->getMetadataFactory()->getAllMetadata());
+
         $page = $em->createQueryBuilder()
             ->select('p')
             ->from(Page::class, 'p')
@@ -30,9 +33,11 @@ class FilterOutTest extends Test
             ->setParameter('id', 1)
             ->getQuery()
             ->getSingleResult();
+
         $article = $page->getArticle();
         $this->assertInstanceOf(Article::class, $article);
         $this->assertNotEquals(Article::class, get_class($article));
+
         $entityUnloader = $this->guy->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
         $this->assertSame($id, '1');
