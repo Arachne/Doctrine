@@ -68,18 +68,23 @@ class DoctrineExtension extends CompilerExtension
                 ->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
-            if ($this->config['validateOnFlush'] && $this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
-                $builder->addDefinition($this->prefix('validator.validatorListener'))
+            if ($this->config['validateOnFlush']) {
+                $listener = $builder->addDefinition($this->prefix('validator.validatorListener'))
                     ->setClass('Arachne\Doctrine\Validator\ValidatorListener')
                     ->setArguments([
                         'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
-                    ])
-                    ->addTag(EventsExtension::TAG_SUBSCRIBER);
+                    ]);
+                
+                if ($this->getExtension('Arachne\EventManager\DI\EventManagerExtension', false)) {
+                    $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
+                } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+                    $listener->addTag(EventsExtension::TAG_SUBSCRIBER);
+                } else {
+                    throw new AssertionException("The 'validateOnFlush' option requires either Arachne/EventManager or Kdyby/Events to be installed.");
+                }
             }
-        }
-
-        if ($this->config['validateOnFlush'] && !$builder->hasDefinition($this->prefix('validator.validatorListener'))) {
-            throw new AssertionException("The 'validateOnFlush' option requires Kdyby\Validator\DI\ValidatorExtension and Kdyby\Events\DI\EventsExtension.");
+        } elseif ($this->config['validateOnFlush']) {
+            throw new AssertionException("The 'validateOnFlush' option requires Kdyby/Validator to be installed.");
         }
 
         if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
