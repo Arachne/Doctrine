@@ -12,6 +12,7 @@ namespace Arachne\Doctrine\DI;
 
 use Arachne\DIHelpers\CompilerExtension;
 use Arachne\EntityLoader\DI\EntityLoaderExtension;
+use Arachne\EventManager\DI\EventManagerExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Kdyby\DoctrineCache\DI\Helpers;
 use Kdyby\Events\DI\EventsExtension;
