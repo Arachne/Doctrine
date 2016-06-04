@@ -4,14 +4,14 @@ namespace Tests\Functional;
 
 use Arachne\EntityLoader\EntityLoader;
 use Codeception\TestCase\Test;
-use Tests\Functional\Classes\Article;
-use Tests\Functional\Classes\ArticleQuery;
+use Tests\Functional\Fixtures\Article;
+use Tests\Functional\Fixtures\ArticleQuery;
 
 class FilterInTest extends Test
 {
     public function testId()
     {
-        $entityLoader = $this->guy->grabService(EntityLoader::class);
+        $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, 1);
         $this->assertInstanceOf(Article::class, $article);
         $this->assertSame($article->getId(), 1);
@@ -19,7 +19,7 @@ class FilterInTest extends Test
 
     public function testArray()
     {
-        $entityLoader = $this->guy->grabService(EntityLoader::class);
+        $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, [
             'name' => 'Lorem Ipsum',
         ]);
@@ -29,7 +29,7 @@ class FilterInTest extends Test
 
     public function testQuery()
     {
-        $entityLoader = $this->guy->grabService(EntityLoader::class);
+        $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, new ArticleQuery());
         $this->assertInstanceOf(Article::class, $article);
         $this->assertSame($article->getId(), 1);
@@ -41,7 +41,7 @@ class FilterInTest extends Test
      */
     public function testError()
     {
-        $entityLoader = $this->guy->grabService(EntityLoader::class);
+        $entityLoader = $this->tester->grabService(EntityLoader::class);
         $entityLoader->filterIn(Article::class, 2);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Functional\Classes;
+namespace Tests\Functional\Fixtures;
 
 use Arachne\Doctrine\EntityLoader\QueryInterface;
 use Doctrine\ORM\EntityRepository;

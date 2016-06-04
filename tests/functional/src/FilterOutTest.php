@@ -5,24 +5,24 @@ namespace Tests\Functional;
 use Arachne\EntityLoader\EntityUnloader;
 use Codeception\TestCase\Test;
 use Doctrine\ORM\EntityManagerInterface;
-use Tests\Functional\Classes\Article;
-use Tests\Functional\Classes\Page;
+use Tests\Functional\Fixtures\Article;
+use Tests\Functional\Fixtures\Page;
 
 class FilterOutTest extends Test
 {
     public function testId()
     {
-        $em = $this->guy->grabService(EntityManagerInterface::class);
+        $em = $this->tester->grabService(EntityManagerInterface::class);
         $article = $em->find(Article::class, 1);
         $this->assertInstanceOf(Article::class, $article);
-        $entityUnloader = $this->guy->grabService(EntityUnloader::class);
+        $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
         $this->assertSame($id, '1');
     }
 
     public function testProxy()
     {
-        $em = $this->guy->grabService(EntityManagerInterface::class);
+        $em = $this->tester->grabService(EntityManagerInterface::class);
 
         $em->getProxyFactory()->generateProxyClasses($em->getMetadataFactory()->getAllMetadata());
 
@@ -38,7 +38,7 @@ class FilterOutTest extends Test
         $this->assertInstanceOf(Article::class, $article);
         $this->assertNotEquals(Article::class, get_class($article));
 
-        $entityUnloader = $this->guy->grabService(EntityUnloader::class);
+        $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
         $this->assertSame($id, '1');
     }
@@ -49,7 +49,7 @@ class FilterOutTest extends Test
      */
     public function testError()
     {
-        $entityUnloader = $this->guy->grabService(EntityUnloader::class);
+        $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $entityUnloader->filterOut(new Article());
     }
 }

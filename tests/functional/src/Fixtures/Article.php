@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Functional\Classes;
+namespace Tests\Functional\Fixtures;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
