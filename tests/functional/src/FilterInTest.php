@@ -37,7 +37,7 @@ class FilterInTest extends Test
 
     /**
      * @expectedException Nette\Application\BadRequestException
-     * @expectedExceptionMessage Desired entity of type 'Tests\Functional\Classes\Article' could not be found.
+     * @expectedExceptionMessage Desired entity of type 'Tests\Functional\Fixtures\Article' could not be found.
      */
     public function testError()
     {
