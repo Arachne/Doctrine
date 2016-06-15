@@ -16,12 +16,14 @@ class Article
 
     /**
      * @Column()
+     *
      * @var string
      */
     private $name;
 
     /**
      * @OneToOne(targetEntity="Page", mappedBy="article")
+     *
      * @var Page
      */
     private $page;

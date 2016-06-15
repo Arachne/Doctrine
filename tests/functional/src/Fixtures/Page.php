@@ -15,6 +15,7 @@ class Page
 
     /**
      * @OneToOne(targetEntity="Article", inversedBy="page")
+     *
      * @var Article
      */
     private $article;

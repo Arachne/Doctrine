@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -32,14 +32,16 @@ class FilterOut extends Object implements FilterOutInterface
 
     /**
      * @param object $entity
+     *
      * @return string
      */
     public function filterOut($entity)
     {
-        $id = $entity->{'get' . $this->field}();
+        $id = $entity->{'get'.$this->field}();
         if ($id === null) {
             throw new InvalidArgumentException("Missing value for identifier field '$this->field'.");
         }
+
         return (string) $id;
     }
 }

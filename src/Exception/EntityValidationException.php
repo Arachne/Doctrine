@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -11,8 +11,8 @@
 namespace Arachne\Doctrine\Exception;
 
 /**
-* @author Michael Moravec
-*/
+ * @author Michael Moravec
+ */
 class EntityValidationException extends \RuntimeException
 {
 }

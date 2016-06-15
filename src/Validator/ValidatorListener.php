@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -62,8 +62,8 @@ class ValidatorListener implements Subscriber
         }
 
         // Copied from UnitOfWork::objToStr().
-        $entityIdentifier = method_exists($entity, '__toString') ? (string) $entity : get_class($entity) . '@' . spl_object_hash($entity);
+        $entityIdentifier = method_exists($entity, '__toString') ? (string) $entity : get_class($entity).'@'.spl_object_hash($entity);
 
-        throw new EntityValidationException('Entity ' . $entityIdentifier . ' is not valid: ' . $violations);
+        throw new EntityValidationException('Entity '.$entityIdentifier.' is not valid: '.$violations);
     }
 }

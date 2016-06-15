@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -38,6 +38,7 @@ class FilterInResolver extends Object implements IteratorAggregate, ResolverInte
 
     /**
      * @param string $name
+     *
      * @return object
      */
     public function resolve($name)
@@ -47,6 +48,7 @@ class FilterInResolver extends Object implements IteratorAggregate, ResolverInte
 
     /**
      * @param string $type
+     *
      * @return FilterIn|null
      */
     private function create($type)

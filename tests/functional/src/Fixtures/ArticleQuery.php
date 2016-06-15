@@ -12,6 +12,7 @@ class ArticleQuery implements QueryInterface
     {
         try {
             $qb = $repository->createQueryBuilder('a');
+
             return $qb->where($qb->expr()->like('a.name', ':name'))
                 ->setParameter('name', '%ipsum%')
                 ->getQuery()

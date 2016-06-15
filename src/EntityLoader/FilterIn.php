@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -33,8 +33,10 @@ class FilterIn extends Object implements FilterInInterface
 
     /**
      * @param mixed $value
-     * @return object
+     *
      * @throws BadRequestException
+     *
+     * @return object
      */
     public function filterIn($value)
     {
@@ -47,8 +49,9 @@ class FilterIn extends Object implements FilterInInterface
         }
         $class = $this->repository->getClassName();
         if (!$entity instanceof $class) {
-            throw new BadRequestException('Desired entity of type \'' . $this->repository->getClassName() . '\' could not be found.');
+            throw new BadRequestException('Desired entity of type \''.$this->repository->getClassName().'\' could not be found.');
         }
+
         return $entity;
     }
 }

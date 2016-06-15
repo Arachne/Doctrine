@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Arachne
  *
  * Copyright (c) Jáchym Toušek (enumag@gmail.com)
@@ -75,7 +75,7 @@ class DoctrineExtension extends CompilerExtension
                     ->setArguments([
                         'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
                     ]);
-                
+
                 if ($this->getExtension('Arachne\EventManager\DI\EventManagerExtension', false)) {
                     $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
                 } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
@@ -121,12 +121,12 @@ class DoctrineExtension extends CompilerExtension
 
             $builder->getDefinition($this->prefix('entityLoader.filterInResolver'))
                 ->setArguments([
-                    'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
+                    'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
                 ]);
 
             $builder->getDefinition($this->prefix('entityLoader.filterOutResolver'))
                 ->setArguments([
-                    'resolver' => '@' . $extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
+                    'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
                 ]);
         }
     }
