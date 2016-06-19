@@ -98,7 +98,6 @@ class DoctrineExtension extends CompilerExtension
                 ->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
                 ->addTag(FormsExtension::TAG_TYPE, [
                     'Symfony\Bridge\Doctrine\Form\Type\EntityType',
-                    'entity',
                 ])
                 ->setAutowired(false);
         }
