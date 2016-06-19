@@ -4,8 +4,13 @@ class_name: FunctionalSuiteTester
 
 modules:
     enabled:
-        - Arachne\Codeception\Module\Nette
-        - Arachne\Codeception\Module\Doctrine
-    config:
-        Arachne\Codeception\Module\Doctrine:
-            dump: tests/functional/data/dump.sql
+        - Arachne\Codeception\Module\NetteApplicationModule
+        - Arachne\Codeception\Module\NetteDIModule:
+            tempDir: ../_temp/functional
+            configurator: Arachne\Bootstrap\Configurator
+            configFiles:
+                - config/config.neon
+        - Arachne\Codeception\Module\DoctrineModule:
+            loadFiles:
+                - data/structure.sql
+                - data/data.sql

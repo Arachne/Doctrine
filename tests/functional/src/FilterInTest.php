@@ -3,11 +3,11 @@
 namespace Tests\Functional;
 
 use Arachne\EntityLoader\EntityLoader;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Tests\Functional\Fixtures\Article;
 use Tests\Functional\Fixtures\ArticleQuery;
 
-class FilterInTest extends Test
+class FilterInTest extends Unit
 {
     public function testId()
     {

@@ -3,12 +3,12 @@
 namespace Tests\Functional;
 
 use Arachne\EntityLoader\EntityUnloader;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Tests\Functional\Fixtures\Article;
 use Tests\Functional\Fixtures\Page;
 
-class FilterOutTest extends Test
+class FilterOutTest extends Unit
 {
     public function testId()
     {
