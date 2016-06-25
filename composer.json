@@ -26,7 +26,7 @@
         "php": "^5.5.0|^7.0.0",
         "arachne/bootstrap": "^0.2.1",
         "arachne/codeception": "^0.7.0",
-        "arachne/entity-loader": "^0.8.3",
+        "arachne/entity-loader": "^0.8.3|^0.9.0",
         "codeception/codeception": "~2.2.0",
         "kdyby/console": "^2.4.0",
         "symfony/event-dispatcher": "^2.8.0"
