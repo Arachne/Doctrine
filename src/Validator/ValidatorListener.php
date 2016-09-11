@@ -17,6 +17,7 @@ use Kdyby\Events\Subscriber;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
+ * @author Jáchym Toušek <enumag@gmail.com>
  * @author Michael Moravec
  */
 class ValidatorListener implements Subscriber
