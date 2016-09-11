@@ -25,7 +25,7 @@ class FilterInResolver extends Object implements IteratorAggregate, ResolverInte
     private $resolver;
 
     /** @var ManagerRegistry */
-    protected $managerRegistry;
+    private $managerRegistry;
 
     /** @var FilterIn[] */
     private $filters;

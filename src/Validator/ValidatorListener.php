@@ -53,7 +53,7 @@ class ValidatorListener implements Subscriber
         }
     }
 
-    protected function validateEntity($entity)
+    private function validateEntity($entity)
     {
         $violations = $this->validator->validate($entity, null, $this->groups);
 

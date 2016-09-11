@@ -25,7 +25,7 @@ class FilterOutResolver extends Object implements IteratorAggregate, ResolverInt
     private $resolver;
 
     /** @var ManagerRegistry */
-    protected $managerRegistry;
+    private $managerRegistry;
 
     /** @var FilterOut[] */
     private $filters;
