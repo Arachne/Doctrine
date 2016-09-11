@@ -11,14 +11,12 @@
 namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\DIHelpers\ResolverInterface;
-use Arachne\Doctrine\Exception\NotImplementedException;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use IteratorAggregate;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class FilterInResolver implements IteratorAggregate, ResolverInterface
+class FilterInResolver implements ResolverInterface
 {
     /** @var ResolverInterface */
     private $resolver;
@@ -56,10 +54,5 @@ class FilterInResolver implements IteratorAggregate, ResolverInterface
         if ($manager) {
             return new FilterIn($manager->getRepository($type));
         }
-    }
-
-    public function getIterator()
-    {
-        throw new NotImplementedException();
     }
 }
