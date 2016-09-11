@@ -18,13 +18,19 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class FilterOutResolver implements ResolverInterface
 {
-    /** @var ResolverInterface */
+    /**
+     * @var ResolverInterface
+     */
     private $resolver;
 
-    /** @var ManagerRegistry */
+    /**
+     * @var ManagerRegistry
+     */
     private $managerRegistry;
 
-    /** @var FilterOut[] */
+    /**
+     * @var FilterOut[]
+     */
     private $filters;
 
     public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
@@ -36,7 +42,7 @@ class FilterOutResolver implements ResolverInterface
     /**
      * @param string $name
      *
-     * @return object
+     * @return FilterOut|null
      */
     public function resolve($name)
     {
@@ -51,8 +57,15 @@ class FilterOutResolver implements ResolverInterface
     private function create($type)
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
-        if ($manager) {
-            return new FilterOut($manager->getClassMetadata($type)->getSingleIdentifierFieldName());
+        if (!$manager) {
+            return;
         }
+
+        $fields = $manager->getClassMetadata($type)->getIdentifierFieldNames();
+        if (count($fields) !== 1 || !isset($fields[0])) {
+            return;
+        }
+
+        return new FilterOut($fields[0]);
     }
 }

@@ -19,7 +19,9 @@ use Nette\Application\BadRequestException;
  */
 class FilterIn implements FilterInInterface
 {
-    /** @var EntityRepository */
+    /**
+     * @var EntityRepository
+     */
     private $repository;
 
     /**

@@ -11,20 +11,25 @@
 namespace Arachne\Doctrine\Validator;
 
 use Arachne\Doctrine\Exception\EntityValidationException;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
-use Kdyby\Events\Subscriber;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
+ * @author Jáchym Toušek <enumag@gmail.com>
  * @author Michael Moravec
  */
-class ValidatorListener implements Subscriber
+class ValidatorListener implements EventSubscriber
 {
-    /** @var ValidatorInterface */
+    /**
+     * @var ValidatorInterface
+     */
     private $validator;
 
-    /** @var string[] */
+    /**
+     * @var string[]|null
+     */
     private $groups;
 
     public function __construct(ValidatorInterface $validator, array $groups = null)
@@ -33,6 +38,9 @@ class ValidatorListener implements Subscriber
         $this->groups = $groups;
     }
 
+    /**
+     * @return array
+     */
     public function getSubscribedEvents()
     {
         return [
@@ -40,6 +48,9 @@ class ValidatorListener implements Subscriber
         ];
     }
 
+    /**
+     * @throws EntityValidationException
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $uow = $args->getEntityManager()->getUnitOfWork();
@@ -57,7 +68,7 @@ class ValidatorListener implements Subscriber
     {
         $violations = $this->validator->validate($entity, null, $this->groups);
 
-        if ($violations->count() === 0) {
+        if (!$violations->count()) {
             return;
         }
 

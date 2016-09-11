@@ -18,7 +18,9 @@ use Arachne\EntityLoader\FilterOutInterface;
  */
 class FilterOut implements FilterOutInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $field;
 
     /**

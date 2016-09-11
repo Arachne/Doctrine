@@ -18,13 +18,19 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class FilterInResolver implements ResolverInterface
 {
-    /** @var ResolverInterface */
+    /**
+     * @var ResolverInterface
+     */
     private $resolver;
 
-    /** @var ManagerRegistry */
+    /**
+     * @var ManagerRegistry
+     */
     private $managerRegistry;
 
-    /** @var FilterIn[] */
+    /**
+     * @var FilterIn[]
+     */
     private $filters;
 
     public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
@@ -36,7 +42,7 @@ class FilterInResolver implements ResolverInterface
     /**
      * @param string $name
      *
-     * @return object
+     * @return FilterIn|null
      */
     public function resolve($name)
     {
