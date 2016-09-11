@@ -12,12 +12,11 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\FilterOutInterface;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class FilterOut extends Object implements FilterOutInterface
+class FilterOut implements FilterOutInterface
 {
     /** @var string */
     private $field;

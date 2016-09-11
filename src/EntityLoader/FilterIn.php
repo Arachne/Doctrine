@@ -13,12 +13,11 @@ namespace Arachne\Doctrine\EntityLoader;
 use Arachne\EntityLoader\FilterInInterface;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class FilterIn extends Object implements FilterInInterface
+class FilterIn implements FilterInInterface
 {
     /** @var EntityRepository */
     private $repository;

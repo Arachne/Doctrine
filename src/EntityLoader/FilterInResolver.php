@@ -14,12 +14,11 @@ use Arachne\DIHelpers\ResolverInterface;
 use Arachne\Doctrine\Exception\NotImplementedException;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use IteratorAggregate;
-use Nette\Object;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class FilterInResolver extends Object implements IteratorAggregate, ResolverInterface
+class FilterInResolver implements IteratorAggregate, ResolverInterface
 {
     /** @var ResolverInterface */
     private $resolver;
