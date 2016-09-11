@@ -60,9 +60,16 @@ class FilterOutResolver extends Object implements IteratorAggregate, ResolverInt
     private function create($type)
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
-        if ($manager) {
-            return new FilterOut($manager->getClassMetadata($type)->getSingleIdentifierFieldName());
+        if (!$manager) {
+            return;
         }
+
+        $fields = $manager->getClassMetadata($type)->getIdentifierFieldNames();
+        if (count($fields) !== 1 || !isset($fields[0])) {
+            return;
+        }
+
+        return new FilterOut($fields[0]);
     }
 
     public function getIterator()
