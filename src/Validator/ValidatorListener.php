@@ -11,16 +11,16 @@
 namespace Arachne\Doctrine\Validator;
 
 use Arachne\Doctrine\Exception\EntityValidationException;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
-use Kdyby\Events\Subscriber;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  * @author Michael Moravec
  */
-class ValidatorListener implements Subscriber
+class ValidatorListener implements EventSubscriber
 {
     /**
      * @var ValidatorInterface
