@@ -21,13 +21,19 @@ use Nette\Object;
  */
 class FilterInResolver extends Object implements IteratorAggregate, ResolverInterface
 {
-    /** @var ResolverInterface */
+    /**
+     * @var ResolverInterface
+     */
     private $resolver;
 
-    /** @var ManagerRegistry */
+    /**
+     * @var ManagerRegistry
+     */
     protected $managerRegistry;
 
-    /** @var FilterIn[] */
+    /**
+     * @var FilterIn[]
+     */
     private $filters;
 
     public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
@@ -39,7 +45,7 @@ class FilterInResolver extends Object implements IteratorAggregate, ResolverInte
     /**
      * @param string $name
      *
-     * @return object
+     * @return FilterIn|null
      */
     public function resolve($name)
     {

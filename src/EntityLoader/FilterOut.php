@@ -19,7 +19,9 @@ use Nette\Object;
  */
 class FilterOut extends Object implements FilterOutInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $field;
 
     /**

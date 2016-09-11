@@ -25,7 +25,9 @@ use Nette\Utils\Validators;
  */
 class DoctrineExtension extends CompilerExtension
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     public $defaults = [
         'validateOnFlush' => false,
         'expressionLanguageCache' => 'default',
@@ -60,10 +62,13 @@ class DoctrineExtension extends CompilerExtension
         if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
             $builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
                 ->setClass('Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator')
-                ->addTag(ValidatorExtension::TAG_CONSTRAINT_VALIDATOR, [
-                    'Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator',
-                    'doctrine.orm.validator.unique',
-                ]);
+                ->addTag(
+                    ValidatorExtension::TAG_CONSTRAINT_VALIDATOR,
+                    [
+                        'Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator',
+                        'doctrine.orm.validator.unique',
+                    ]
+                );
 
             $builder->addDefinition($this->prefix('validator.initializer'))
                 ->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
@@ -72,9 +77,11 @@ class DoctrineExtension extends CompilerExtension
             if ($this->config['validateOnFlush']) {
                 $listener = $builder->addDefinition($this->prefix('validator.validatorListener'))
                     ->setClass('Arachne\Doctrine\Validator\ValidatorListener')
-                    ->setArguments([
-                        'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
-                    ]);
+                    ->setArguments(
+                        [
+                            'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
+                        ]
+                    );
 
                 if ($this->getExtension('Arachne\EventManager\DI\EventManagerExtension', false)) {
                     $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
@@ -96,18 +103,24 @@ class DoctrineExtension extends CompilerExtension
 
             $builder->addDefinition($this->prefix('forms.type.entity'))
                 ->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
-                ->addTag(FormsExtension::TAG_TYPE, [
-                    'Symfony\Bridge\Doctrine\Form\Type\EntityType',
-                ])
+                ->addTag(
+                    FormsExtension::TAG_TYPE,
+                    [
+                        'Symfony\Bridge\Doctrine\Form\Type\EntityType',
+                    ]
+                )
                 ->setAutowired(false);
         }
 
         if ($this->getExtension('Arachne\ExpressionLanguage\DI\ExpressionLanguageExtension', false)) {
             $builder->addDefinition($this->prefix('expressionLanguage.parserCache'))
                 ->setClass('Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface')
-                ->setFactory('Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache', [
-                    'cache' => Helpers::processCache($this, $config['expressionLanguageCache'], 'expressionLanguage', $config['debug']),
-                ]);
+                ->setFactory(
+                    'Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache',
+                    [
+                        'cache' => Helpers::processCache($this, $config['expressionLanguageCache'], 'expressionLanguage', $config['debug']),
+                    ]
+                );
         }
     }
 
@@ -119,14 +132,18 @@ class DoctrineExtension extends CompilerExtension
             $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false);
 
             $builder->getDefinition($this->prefix('entityLoader.filterInResolver'))
-                ->setArguments([
-                    'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
-                ]);
+                ->setArguments(
+                    [
+                        'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
+                    ]
+                );
 
             $builder->getDefinition($this->prefix('entityLoader.filterOutResolver'))
-                ->setArguments([
-                    'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
-                ]);
+                ->setArguments(
+                    [
+                        'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
+                    ]
+                );
         }
     }
 }

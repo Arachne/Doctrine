@@ -20,7 +20,9 @@ use Nette\Object;
  */
 class FilterIn extends Object implements FilterInInterface
 {
-    /** @var EntityRepository */
+    /**
+     * @var EntityRepository
+     */
     private $repository;
 
     /**

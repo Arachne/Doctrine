@@ -21,10 +21,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ValidatorListener implements Subscriber
 {
-    /** @var ValidatorInterface */
+    /**
+     * @var ValidatorInterface
+     */
     private $validator;
 
-    /** @var string[] */
+    /**
+     * @var string[]|null
+     */
     private $groups;
 
     public function __construct(ValidatorInterface $validator, array $groups = null)
@@ -33,6 +37,9 @@ class ValidatorListener implements Subscriber
         $this->groups = $groups;
     }
 
+    /**
+     * @return array
+     */
     public function getSubscribedEvents()
     {
         return [
@@ -40,6 +47,9 @@ class ValidatorListener implements Subscriber
         ];
     }
 
+    /**
+     * @throws EntityValidationException
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $uow = $args->getEntityManager()->getUnitOfWork();
@@ -57,7 +67,7 @@ class ValidatorListener implements Subscriber
     {
         $violations = $this->validator->validate($entity, null, $this->groups);
 
-        if ($violations->count() === 0) {
+        if (!$violations->count()) {
             return;
         }
 
