@@ -10,16 +10,15 @@
 
 namespace Arachne\Doctrine\EntityLoader;
 
-use Arachne\DIHelpers\ResolverInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
  */
-class FilterOutResolver implements ResolverInterface
+class FilterOutResolver
 {
     /**
-     * @var ResolverInterface
+     * @var callable
      */
     private $resolver;
 
@@ -33,7 +32,7 @@ class FilterOutResolver implements ResolverInterface
      */
     private $filters;
 
-    public function __construct(ResolverInterface $resolver, ManagerRegistry $managerRegistry)
+    public function __construct(callable $resolver, ManagerRegistry $managerRegistry)
     {
         $this->resolver = $resolver;
         $this->managerRegistry = $managerRegistry;
@@ -44,9 +43,10 @@ class FilterOutResolver implements ResolverInterface
      *
      * @return FilterOut|null
      */
-    public function resolve($name)
+    public function __invoke($name)
     {
-        return $this->resolver->resolve($name) ?: (isset($this->filters[$name]) ? $this->filters[$name] : $this->filters[$name] = $this->create($name));
+        return call_user_func($this->resolver, $name)
+            ?: (isset($this->filters[$name]) ? $this->filters[$name] : $this->filters[$name] = $this->create($name));
     }
 
     /**

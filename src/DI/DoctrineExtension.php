@@ -10,13 +10,14 @@
 
 namespace Arachne\Doctrine\DI;
 
-use Arachne\DIHelpers\CompilerExtension;
 use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\EventManager\DI\EventManagerExtension;
 use Arachne\Forms\DI\FormsExtension;
+use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
 use Kdyby\DoctrineCache\DI\Helpers;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
+use Nette\DI\CompilerExtension;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 
@@ -46,17 +47,43 @@ class DoctrineExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
-            $builder->addDefinition($this->prefix('entityLoader.filterInResolver'))
-                ->setClass('Arachne\Doctrine\EntityLoader\FilterInResolver')
-                ->setAutowired(false);
+            $serviceCollectionsExtension = $this->getExtension('Arachne\ServiceCollections\DI\ServiceCollectionsExtension');
+            $serviceCollectionsExtension->overrideCollection(
+                ServiceCollectionsExtension::TYPE_RESOLVER,
+                EntityLoaderExtension::TAG_FILTER_IN,
+                function ($originalService) use ($builder) {
+                    $service = $this->prefix('entityLoader.filterInResolver');
 
-            $builder->addDefinition($this->prefix('entityLoader.filterOutResolver'))
-                ->setClass('Arachne\Doctrine\EntityLoader\FilterOutResolver')
-                ->setAutowired(false);
+                    $builder->addDefinition($service)
+                        ->setClass('Arachne\Doctrine\EntityLoader\FilterInResolver')
+                        ->setArguments(
+                            [
+                                'resolver' => '@'.$originalService,
+                            ]
+                        )
+                        ->setAutowired(false);
 
-            $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension');
-            $extension->override(EntityLoaderExtension::TAG_FILTER_IN, $this->prefix('entityLoader.filterInResolver'));
-            $extension->override(EntityLoaderExtension::TAG_FILTER_OUT, $this->prefix('entityLoader.filterOutResolver'));
+                    return $service;
+                }
+            );
+            $serviceCollectionsExtension->overrideCollection(
+                ServiceCollectionsExtension::TYPE_RESOLVER,
+                EntityLoaderExtension::TAG_FILTER_OUT,
+                function ($originalService) use ($builder) {
+                    $service = $this->prefix('entityLoader.filterOutResolver');
+
+                    $builder->addDefinition($service)
+                        ->setClass('Arachne\Doctrine\EntityLoader\FilterOutResolver')
+                        ->setArguments(
+                            [
+                                'resolver' => '@'.$originalService,
+                            ]
+                        )
+                        ->setAutowired(false);
+
+                    return $service;
+                }
+            );
         }
 
         if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
@@ -124,26 +151,26 @@ class DoctrineExtension extends CompilerExtension
         }
     }
 
-    public function beforeCompile()
+    /**
+     * @param string $class
+     * @param bool   $need
+     *
+     * @return CompilerExtension|null
+     */
+    private function getExtension($class, $need = true)
     {
-        $builder = $this->getContainerBuilder();
+        $extensions = $this->compiler->getExtensions($class);
 
-        if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
-            $extension = $this->getExtension('Arachne\DIHelpers\DI\ResolversExtension', false);
+        if (!$extensions) {
+            if (!$need) {
+                return null;
+            }
 
-            $builder->getDefinition($this->prefix('entityLoader.filterInResolver'))
-                ->setArguments(
-                    [
-                        'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_IN, false),
-                    ]
-                );
-
-            $builder->getDefinition($this->prefix('entityLoader.filterOutResolver'))
-                ->setArguments(
-                    [
-                        'resolver' => '@'.$extension->get(EntityLoaderExtension::TAG_FILTER_OUT, false),
-                    ]
-                );
+            throw new AssertionException(
+                sprintf('Extension "%s" requires "%s" to be installed.', get_class($this), $class)
+            );
         }
+
+        return reset($extensions);
     }
 }
