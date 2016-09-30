@@ -118,7 +118,12 @@ class DoctrineExtension extends CompilerExtension
                 ->setFactory(
                     'Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache',
                     [
-                        'cache' => Helpers::processCache($this, $config['expressionLanguageCache'], 'expressionLanguage', $config['debug']),
+                        'cache' => Helpers::processCache(
+                            $this,
+                            $this->config['expressionLanguageCache'],
+                            'expressionLanguage',
+                            $this->config['debug']
+                        ),
                     ]
                 );
         }
