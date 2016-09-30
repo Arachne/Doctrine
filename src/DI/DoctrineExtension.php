@@ -47,7 +47,9 @@ class DoctrineExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
+            /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
             $serviceCollectionsExtension = $this->getExtension('Arachne\ServiceCollections\DI\ServiceCollectionsExtension');
+
             $serviceCollectionsExtension->overrideCollection(
                 ServiceCollectionsExtension::TYPE_RESOLVER,
                 EntityLoaderExtension::TAG_FILTER_IN,
@@ -66,6 +68,7 @@ class DoctrineExtension extends CompilerExtension
                     return $service;
                 }
             );
+
             $serviceCollectionsExtension->overrideCollection(
                 ServiceCollectionsExtension::TYPE_RESOLVER,
                 EntityLoaderExtension::TAG_FILTER_OUT,
