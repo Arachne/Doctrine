@@ -44,7 +44,7 @@ class FilterOutTest extends Unit
     }
 
     /**
-     * @expectedException Arachne\Doctrine\Exception\InvalidArgumentException
+     * @expectedException \Arachne\Doctrine\Exception\InvalidArgumentException
      * @expectedExceptionMessage Missing value for identifier field 'id'.
      */
     public function testError()
