@@ -6,10 +6,13 @@ extensions:
     kdyby.console: Kdyby\Console\DI\ConsoleExtension
     kdyby.events: Kdyby\Events\DI\EventsExtension
     kdyby.doctrine: Kdyby\Doctrine\DI\OrmExtension
+    kdyby.translation: Kdyby\Translation\DI\TranslationExtension
+    kdyby.validator: Kdyby\Validator\DI\ValidatorExtension
     nette.application: Nette\Bridges\ApplicationDI\ApplicationExtension( %debugMode%, [ %appDir% ], %tempDir% )
     nette.caching: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
     nette.http: Nette\Bridges\HttpDI\HttpExtension
     nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension( %debugMode% )
+    nette.session: Nette\Bridges\HttpDI\SessionExtension
     oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
 kdyby.events:
@@ -18,3 +21,6 @@ kdyby.events:
 kdyby.doctrine:
     driver: pdo_sqlite
     memory: true
+
+arachne.doctrine:
+    validateOnFlush: true

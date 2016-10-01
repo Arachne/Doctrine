@@ -27,7 +27,10 @@
         "arachne/entity-loader": "^0.10.0",
         "arachne/service-collections": "^0.1.0",
         "codeception/codeception": "~2.2.0",
-        "kdyby/console": "^2.4.0"
+        "kdyby/console": "^2.4.0",
+        "kdyby/events": "^3.0.0",
+        "kdyby/validator": "^0.4.0",
+        "symfony/doctrine-bridge": "^2.8.0|^3.0.0"
     },
     "autoload": {
         "psr-4": {
