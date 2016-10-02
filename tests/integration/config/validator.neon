@@ -1,0 +1,14 @@
+extensions:
+    arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+    kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    kdyby.events: Kdyby\Events\DI\EventsExtension
+    kdyby.doctrine: Kdyby\Doctrine\DI\OrmExtension
+    kdyby.translation: Kdyby\Translation\DI\TranslationExtension
+    kdyby.validator: Kdyby\Validator\DI\ValidatorExtension
+    nette.caching: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+    nette.http: Nette\Bridges\HttpDI\HttpExtension
+    nette.session: Nette\Bridges\HttpDI\SessionExtension
+
+kdyby.doctrine:
+    driver: pdo_sqlite
+    memory: true

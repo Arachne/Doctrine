@@ -1,0 +1,6 @@
+extensions:
+    arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+    arachne.expressionlanguage: Arachne\ExpressionLanguage\DI\ExpressionLanguageExtension
+
+arachne.doctrine:
+    expressionLanguageCache: array

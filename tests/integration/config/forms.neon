@@ -1,0 +1,12 @@
+extensions:
+    arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
+    arachne.forms: Arachne\Forms\DI\FormsExtension
+    kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    kdyby.events: Kdyby\Events\DI\EventsExtension
+    kdyby.doctrine: Kdyby\Doctrine\DI\OrmExtension
+    nette.caching: Nette\Bridges\CacheDI\CacheExtension( %tempDir% )
+
+kdyby.doctrine:
+    driver: pdo_sqlite
+    memory: true
