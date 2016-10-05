@@ -17,16 +17,6 @@ class FilterInTest extends Unit
         $this->assertSame($article->getId(), 1);
     }
 
-    public function testArray()
-    {
-        $entityLoader = $this->tester->grabService(EntityLoader::class);
-        $article = $entityLoader->filterIn(Article::class, [
-            'name' => 'Lorem Ipsum',
-        ]);
-        $this->assertInstanceOf(Article::class, $article);
-        $this->assertSame($article->getId(), 1);
-    }
-
     public function testQuery()
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);

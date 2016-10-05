@@ -41,9 +41,7 @@ class FilterIn implements FilterInInterface
      */
     public function filterIn($value)
     {
-        if (is_array($value)) {
-            $entity = $this->repository->findOneBy($value);
-        } elseif (!is_object($value)) {
+        if (!is_object($value)) {
             $entity = $this->repository->find($value);
         } elseif ($value instanceof QueryInterface) {
             $entity = $value->getEntity($this->repository);
