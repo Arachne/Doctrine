@@ -11,11 +11,12 @@ Arachne/Doctrine
 
 Additional integrations of Doctrine to Kdyby and Arachne packages.
 
-Installation
+Documentation
 ----
 
-The best way to install Arachne/Doctrine is using  [Composer](http://getcomposer.org/):
+This package works as a bridge to connect [Kdyby/Doctrine](https://github.com/Kdyby/Doctrine) with other libraries. There are no hard dependencies. Instead Arachne/Doctrine will add each feature if the necessary extensions are available.
 
-```sh
-$ composer require arachne/doctrine
-```
+- [Entities as presenter parameters](docs/entity-loader.md) (with [Arachne/EntityLoader](https://github.com/Arachne/EntityLoader))
+- [Symfony/Validator UniqueEntity constraint, validation on flush](docs/validator.md) (with [Kdyby/Validator](https://github.com/Kdyby/Validator))
+- [Symfony/Form EntityType and DoctrineOrmTypeGuesser](docs/forms.md) (with [Arachne/Forms](https://github.com/Arachne/Forms))
+- [Caching for Symfony/ExpressionLanguage](docs/expression-language.md) (with [Arachne/ExpressionLanguage](https://github.com/Arachne/ExpressionLanguage))
