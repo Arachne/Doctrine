@@ -2,6 +2,9 @@
 
 namespace Arachne\Doctrine\DI;
 
+use Arachne\Doctrine\EntityLoader\FilterInResolver;
+use Arachne\Doctrine\EntityLoader\FilterOutResolver;
+use Arachne\Doctrine\Validator\ValidatorListener;
 use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\EventManager\DI\EventManagerExtension;
 use Arachne\Forms\DI\FormsExtension;
@@ -11,6 +14,10 @@ use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\DI\CompilerExtension;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
+use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
+use Symfony\Bridge\Doctrine\Validator\DoctrineInitializer;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -31,9 +38,9 @@ class DoctrineExtension extends CompilerExtension
 
         $builder = $this->getContainerBuilder();
 
-        if ($this->getExtension('Arachne\EntityLoader\DI\EntityLoaderExtension', false)) {
+        if ($this->getExtension(EntityLoaderExtension::class, false)) {
             /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
-            $serviceCollectionsExtension = $this->getExtension('Arachne\ServiceCollections\DI\ServiceCollectionsExtension');
+            $serviceCollectionsExtension = $this->getExtension(ServiceCollectionsExtension::class);
 
             $serviceCollectionsExtension->overrideCollection(
                 ServiceCollectionsExtension::TYPE_RESOLVER,
@@ -42,7 +49,7 @@ class DoctrineExtension extends CompilerExtension
                     $service = $this->prefix('entityLoader.filterInResolver');
 
                     $builder->addDefinition($service)
-                        ->setClass('Arachne\Doctrine\EntityLoader\FilterInResolver')
+                        ->setClass(FilterInResolver::class)
                         ->setArguments(
                             [
                                 'resolver' => '@'.$originalService,
@@ -61,7 +68,7 @@ class DoctrineExtension extends CompilerExtension
                     $service = $this->prefix('entityLoader.filterOutResolver');
 
                     $builder->addDefinition($service)
-                        ->setClass('Arachne\Doctrine\EntityLoader\FilterOutResolver')
+                        ->setClass(FilterOutResolver::class)
                         ->setArguments(
                             [
                                 'resolver' => '@'.$originalService,
@@ -74,33 +81,33 @@ class DoctrineExtension extends CompilerExtension
             );
         }
 
-        if ($this->getExtension('Kdyby\Validator\DI\ValidatorExtension', false)) {
+        if ($this->getExtension(ValidatorExtension::class, false)) {
             $builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
-                ->setClass('Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator')
+                ->setClass(UniqueEntityValidator::class)
                 ->addTag(
                     ValidatorExtension::TAG_CONSTRAINT_VALIDATOR,
                     [
-                        'Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator',
+                        UniqueEntityValidator::class,
                         'doctrine.orm.validator.unique',
                     ]
                 );
 
             $builder->addDefinition($this->prefix('validator.initializer'))
-                ->setClass('Symfony\Bridge\Doctrine\Validator\DoctrineInitializer')
+                ->setClass(DoctrineInitializer::class)
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
             if ($this->config['validateOnFlush']) {
                 $listener = $builder->addDefinition($this->prefix('validator.validatorListener'))
-                    ->setClass('Arachne\Doctrine\Validator\ValidatorListener')
+                    ->setClass(ValidatorListener::class)
                     ->setArguments(
                         [
                             'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
                         ]
                     );
 
-                if ($this->getExtension('Arachne\EventManager\DI\EventManagerExtension', false)) {
+                if ($this->getExtension(EventManagerExtension::class, false)) {
                     $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
-                } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
+                } elseif ($this->getExtension(EventsExtension::class, false)) {
                     $listener->addTag(EventsExtension::TAG_SUBSCRIBER);
                 } else {
                     throw new AssertionException('The "validateOnFlush" option requires either Arachne/EventManager or Kdyby/Events to be installed.');
@@ -110,18 +117,18 @@ class DoctrineExtension extends CompilerExtension
             throw new AssertionException('The "validateOnFlush" option requires Kdyby/Validator to be installed.');
         }
 
-        if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {
+        if ($this->getExtension(FormsExtension::class, false)) {
             $builder->addDefinition($this->prefix('forms.typeGuesser'))
-                ->setClass('Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser')
+                ->setClass(DoctrineOrmTypeGuesser::class)
                 ->addTag(FormsExtension::TAG_TYPE_GUESSER)
                 ->setAutowired(false);
 
             $builder->addDefinition($this->prefix('forms.type.entity'))
-                ->setClass('Symfony\Bridge\Doctrine\Form\Type\EntityType')
+                ->setClass(EntityType::class)
                 ->addTag(
                     FormsExtension::TAG_TYPE,
                     [
-                        'Symfony\Bridge\Doctrine\Form\Type\EntityType',
+                        EntityType::class,
                     ]
                 )
                 ->setAutowired(false);
