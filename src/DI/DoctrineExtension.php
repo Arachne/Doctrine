@@ -110,11 +110,11 @@ class DoctrineExtension extends CompilerExtension
                 } elseif ($this->getExtension('Kdyby\Events\DI\EventsExtension', false)) {
                     $listener->addTag(EventsExtension::TAG_SUBSCRIBER);
                 } else {
-                    throw new AssertionException("The 'validateOnFlush' option requires either Arachne/EventManager or Kdyby/Events to be installed.");
+                    throw new AssertionException('The "validateOnFlush" option requires either Arachne/EventManager or Kdyby/Events to be installed.');
                 }
             }
         } elseif ($this->config['validateOnFlush']) {
-            throw new AssertionException("The 'validateOnFlush' option requires Kdyby/Validator to be installed.");
+            throw new AssertionException('The "validateOnFlush" option requires Kdyby/Validator to be installed.');
         }
 
         if ($this->getExtension('Arachne\Forms\DI\FormsExtension', false)) {

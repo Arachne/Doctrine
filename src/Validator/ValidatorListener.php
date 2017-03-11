@@ -67,6 +67,6 @@ class ValidatorListener implements EventSubscriber
         // Copied from UnitOfWork::objToStr().
         $entityIdentifier = method_exists($entity, '__toString') ? (string) $entity : get_class($entity).'@'.spl_object_hash($entity);
 
-        throw new EntityValidationException('Entity '.$entityIdentifier.' is not valid: '.$violations);
+        throw new EntityValidationException(sprintf('Entity "%s" is not valid: %s', $entityIdentifier, $violations));
     }
 }

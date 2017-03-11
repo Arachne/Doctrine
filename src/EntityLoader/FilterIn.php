@@ -40,7 +40,7 @@ class FilterIn implements FilterInInterface
         }
         $class = $this->repository->getClassName();
         if (!$entity instanceof $class) {
-            throw new BadRequestException('Desired entity of type \''.$this->repository->getClassName().'\' could not be found.');
+            throw new BadRequestException(sprintf('Desired entity of type "%s" could not be found.', $this->repository->getClassName()));
         }
 
         return $entity;

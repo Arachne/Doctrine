@@ -19,7 +19,7 @@ class ValidatorListenerTest extends Unit
 
     /**
      * @expectedException \Arachne\Doctrine\Exception\EntityValidationException
-     * @expectedExceptionMessageRegExp ~^Entity Tests\\Functional\\Fixtures\\Article@[a-z0-9]++ is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
+     * @expectedExceptionMessageRegExp ~^Entity "Tests\\Functional\\Fixtures\\Article@[a-z0-9]++" is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
      */
     public function testFlushInsertException()
     {
@@ -43,7 +43,7 @@ class ValidatorListenerTest extends Unit
 
     /**
      * @expectedException \Arachne\Doctrine\Exception\EntityValidationException
-     * @expectedExceptionMessageRegExp ~^Entity Tests\\Functional\\Fixtures\\Article@[a-z0-9]++ is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
+     * @expectedExceptionMessageRegExp ~^Entity "Tests\\Functional\\Fixtures\\Article@[a-z0-9]++" is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
      */
     public function testFlushUpdateException()
     {
