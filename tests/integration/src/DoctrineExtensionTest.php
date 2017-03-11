@@ -3,11 +3,9 @@
 namespace Tests\Integration;
 
 use Codeception\Test\Unit;
-use Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
-use Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\ResolvedFormType;
 use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
@@ -32,11 +30,5 @@ class DoctrineExtensionTest extends Unit
         $type = $registry->getType(EntityType::class);
         self::assertInstanceOf(ResolvedFormType::class, $type);
         self::assertInstanceOf(EntityType::class, $type->getInnerType());
-    }
-
-    public function testParserCache()
-    {
-        $this->tester->useConfigFiles(['config/expression-language.neon']);
-        self::assertInstanceOf(DoctrineParserCache::class, $this->tester->grabService(ParserCacheInterface::class));
     }
 }

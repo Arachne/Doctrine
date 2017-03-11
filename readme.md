@@ -19,4 +19,3 @@ This package works as a bridge to connect [Kdyby/Doctrine](https://github.com/Kd
 - [Entities as presenter parameters](docs/entity-loader.md) (with [Arachne/EntityLoader](https://github.com/Arachne/EntityLoader))
 - [Symfony/Validator UniqueEntity constraint, validation on flush](docs/validator.md) (with [Kdyby/Validator](https://github.com/Kdyby/Validator))
 - [Symfony/Form EntityType and DoctrineOrmTypeGuesser](docs/forms.md) (with [Arachne/Forms](https://github.com/Arachne/Forms))
-- [Caching for Symfony/ExpressionLanguage](docs/expression-language.md) (with [Arachne/ExpressionLanguage](https://github.com/Arachne/ExpressionLanguage))

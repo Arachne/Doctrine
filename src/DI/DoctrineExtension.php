@@ -6,7 +6,6 @@ use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\EventManager\DI\EventManagerExtension;
 use Arachne\Forms\DI\FormsExtension;
 use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
-use Kdyby\DoctrineCache\DI\Helpers;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\DI\CompilerExtension;
@@ -23,13 +22,7 @@ class DoctrineExtension extends CompilerExtension
      */
     public $defaults = [
         'validateOnFlush' => false,
-        'expressionLanguageCache' => 'default',
     ];
-
-    public function __construct($debugMode = false)
-    {
-        $this->defaults['debug'] = $debugMode;
-    }
 
     public function loadConfiguration()
     {
@@ -132,22 +125,6 @@ class DoctrineExtension extends CompilerExtension
                     ]
                 )
                 ->setAutowired(false);
-        }
-
-        if ($this->getExtension('Arachne\ExpressionLanguage\DI\ExpressionLanguageExtension', false)) {
-            $builder->addDefinition($this->prefix('expressionLanguage.parserCache'))
-                ->setClass('Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface')
-                ->setFactory(
-                    'Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache',
-                    [
-                        'cache' => Helpers::processCache(
-                            $this,
-                            $this->config['expressionLanguageCache'],
-                            'expressionLanguage',
-                            $this->config['debug']
-                        ),
-                    ]
-                );
         }
     }
 
