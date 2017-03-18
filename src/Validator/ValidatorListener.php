@@ -24,7 +24,7 @@ class ValidatorListener implements EventSubscriber
      */
     private $groups;
 
-    public function __construct(ValidatorInterface $validator, array $groups = null)
+    public function __construct(ValidatorInterface $validator, ?array $groups = null)
     {
         $this->validator = $validator;
         $this->groups = $groups;
@@ -33,7 +33,7 @@ class ValidatorListener implements EventSubscriber
     /**
      * @return array
      */
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::onFlush,
@@ -43,9 +43,9 @@ class ValidatorListener implements EventSubscriber
     /**
      * @throws EntityValidationException
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $event): void
     {
-        $uow = $args->getEntityManager()->getUnitOfWork();
+        $uow = $event->getEntityManager()->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             $this->validateEntity($entity);
@@ -56,7 +56,7 @@ class ValidatorListener implements EventSubscriber
         }
     }
 
-    private function validateEntity($entity)
+    private function validateEntity($entity): void
     {
         $violations = $this->validator->validate($entity, null, $this->groups);
 

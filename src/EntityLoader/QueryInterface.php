@@ -9,5 +9,10 @@ use Doctrine\ORM\EntityRepository;
  */
 interface QueryInterface
 {
+    /**
+     * @param EntityRepository $repository
+     *
+     * @return object
+     */
     public function getEntity(EntityRepository $repository);
 }

@@ -107,7 +107,7 @@ class DoctrineExtension extends CompilerExtension
      *
      * @return CompilerExtension|null
      */
-    private function getExtension($class, $need = true)
+    private function getExtension(string $class, bool $need = true): ?CompilerExtension
     {
         $extensions = $this->compiler->getExtensions($class);
 
