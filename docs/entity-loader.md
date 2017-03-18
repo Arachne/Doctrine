@@ -11,15 +11,16 @@ Then add the necessary extensions into your config.neon:
 
 ```
 extensions:
-    oops.cache_factory: Oops\CacheFactory\DI\CacheFactoryExtension
-    arachne.service_collections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
-    arachne.container_adapter: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
-    arachne.event_dispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
+    oops.cacheFactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    arachne.containerAdapter: Arachne\ContainerAdapter\DI\ContainerAdapterExtension
+    arachne.eventDispatcher: Arachne\EventDispatcher\DI\EventDispatcherExtension
     arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
-    arachne.entity_loader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
 ```
 
 Now continue normally with the [EntityLoader installation](https://github.com/Arachne/EntityLoader/blob/master/docs/installation.md).
+
 
 Friendly URLs
 ----
@@ -31,7 +32,7 @@ First you need to change your routing to use `Arachne\EntityLoader\Routing\Route
 Next enable envelopes in your config.neon:
 
 ```
-arachne.entity_loader:
+arachne.entityLoader:
     envelopes: true
 ```
 

@@ -1,7 +1,7 @@
 extensions:
-    arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
-    arachne.entityloader: Arachne\EntityLoader\DI\EntityLoaderExtension
+    arachne.entityLoader: Arachne\EntityLoader\DI\EntityLoaderExtension
     kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
     kdyby.console: Kdyby\Console\DI\ConsoleExtension
     kdyby.events: Kdyby\Events\DI\EventsExtension
@@ -13,7 +13,7 @@ extensions:
     nette.http: Nette\Bridges\HttpDI\HttpExtension
     nette.routing: Nette\Bridges\ApplicationDI\RoutingExtension( %debugMode% )
     nette.session: Nette\Bridges\HttpDI\SessionExtension
-    oops.cachefactory: Oops\CacheFactory\DI\CacheFactoryExtension
+    oops.cacheFactory: Oops\CacheFactory\DI\CacheFactoryExtension
 
 kdyby.events:
     debugger: false
