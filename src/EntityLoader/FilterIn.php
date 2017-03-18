@@ -3,6 +3,7 @@
 namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\EntityLoader\FilterInInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
 
@@ -12,35 +13,50 @@ use Nette\Application\BadRequestException;
 class FilterIn implements FilterInInterface
 {
     /**
-     * @var EntityRepository
+     * @var ManagerRegistry
      */
-    private $repository;
+    private $managerRegistry;
 
     /**
-     * @param EntityRepository $repository
+     * @var EntityRepository[]
      */
-    public function __construct(EntityRepository $repository)
+    private $repositories;
+
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        $this->repository = $repository;
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
-     * @param mixed $value
-     *
-     * @throws BadRequestException
-     *
-     * @return object
+     * {@inheritdoc}
      */
-    public function filterIn($value)
+    public function supports(string $type): bool
     {
-        if (!is_object($value)) {
-            $entity = $this->repository->find($value);
-        } elseif ($value instanceof QueryInterface) {
-            $entity = $value->getEntity($this->repository);
+        $manager = $this->managerRegistry->getManagerForClass($type);
+
+        if ($manager) {
+            $this->repositories[$type] = $manager->getRepository($type);
         }
-        $class = $this->repository->getClassName();
-        if (!$entity instanceof $class) {
-            throw new BadRequestException(sprintf('Desired entity of type "%s" could not be found.', $this->repository->getClassName()));
+
+        return (bool) $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filterIn($value, string $type)
+    {
+        $repository = $this->repositories[$type];
+
+        if (!is_object($value)) {
+            $entity = $repository->find($value);
+        } elseif ($value instanceof QueryInterface) {
+            $entity = $value->getEntity($repository);
+        }
+
+        $class = $repository->getClassName();
+        if (!isset($entity) || !$entity instanceof $class) {
+            throw new BadRequestException(sprintf('Desired entity of type "%s" could not be found.', $repository->getClassName()));
         }
 
         return $entity;

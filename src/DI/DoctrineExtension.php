@@ -2,13 +2,12 @@
 
 namespace Arachne\Doctrine\DI;
 
-use Arachne\Doctrine\EntityLoader\FilterInResolver;
-use Arachne\Doctrine\EntityLoader\FilterOutResolver;
+use Arachne\Doctrine\EntityLoader\FilterIn;
+use Arachne\Doctrine\EntityLoader\FilterOut;
 use Arachne\Doctrine\Validator\ValidatorListener;
 use Arachne\EntityLoader\DI\EntityLoaderExtension;
 use Arachne\EventManager\DI\EventManagerExtension;
 use Arachne\Forms\DI\FormsExtension;
-use Arachne\ServiceCollections\DI\ServiceCollectionsExtension;
 use Kdyby\Events\DI\EventsExtension;
 use Kdyby\Validator\DI\ValidatorExtension;
 use Nette\DI\CompilerExtension;
@@ -39,46 +38,13 @@ class DoctrineExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         if ($this->getExtension(EntityLoaderExtension::class, false)) {
-            /* @var $serviceCollectionsExtension ServiceCollectionsExtension */
-            $serviceCollectionsExtension = $this->getExtension(ServiceCollectionsExtension::class);
+            $builder->addDefinition($this->prefix('validator.entityLoader.filterIn'))
+                ->setClass(FilterIn::class)
+                ->addTag(EntityLoaderExtension::TAG_FILTER_IN);
 
-            $serviceCollectionsExtension->overrideCollection(
-                ServiceCollectionsExtension::TYPE_RESOLVER,
-                EntityLoaderExtension::TAG_FILTER_IN,
-                function ($originalService) use ($builder) {
-                    $service = $this->prefix('entityLoader.filterInResolver');
-
-                    $builder->addDefinition($service)
-                        ->setClass(FilterInResolver::class)
-                        ->setArguments(
-                            [
-                                'resolver' => '@'.$originalService,
-                            ]
-                        )
-                        ->setAutowired(false);
-
-                    return $service;
-                }
-            );
-
-            $serviceCollectionsExtension->overrideCollection(
-                ServiceCollectionsExtension::TYPE_RESOLVER,
-                EntityLoaderExtension::TAG_FILTER_OUT,
-                function ($originalService) use ($builder) {
-                    $service = $this->prefix('entityLoader.filterOutResolver');
-
-                    $builder->addDefinition($service)
-                        ->setClass(FilterOutResolver::class)
-                        ->setArguments(
-                            [
-                                'resolver' => '@'.$originalService,
-                            ]
-                        )
-                        ->setAutowired(false);
-
-                    return $service;
-                }
-            );
+            $builder->addDefinition($this->prefix('validator.entityLoader.filterOut'))
+                ->setClass(FilterOut::class)
+                ->addTag(EntityLoaderExtension::TAG_FILTER_OUT);
         }
 
         if ($this->getExtension(ValidatorExtension::class, false)) {

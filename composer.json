@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "php": "^5.5.0|^7.0.0",
-        "nette/di": "^2.3.0"
+        "php": "^7.1.0",
+        "nette/di": "^2.4.0"
     },
     "suggest": {
         "kdyby/validator": "Provides validation for doctrine entities.",
@@ -22,15 +22,15 @@
     },
     "require-dev": {
         "arachne/codeception": "^0.7.5",
-        "arachne/entity-loader": "^0.10.0",
+        "arachne/entity-loader": "^0.11.0@dev",
         "arachne/forms": "^0.3.0",
         "arachne/service-collections": "^0.1.0",
-        "codeception/codeception": "~2.2.0",
+        "codeception/codeception": "^2.2.0",
         "kdyby/console": "^2.4.0",
         "kdyby/doctrine": "^3.0.0",
         "kdyby/events": "^3.0.0",
         "kdyby/validator": "^0.4.0",
-        "symfony/doctrine-bridge": "^2.8.0|^3.0.0"
+        "symfony/doctrine-bridge": "^3.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.8-dev"
+            "dev-master": "0.9-dev"
         }
     }
 }

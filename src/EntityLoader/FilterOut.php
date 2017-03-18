@@ -4,6 +4,7 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\FilterOutInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @author Jáchym Toušek <enumag@gmail.com>
@@ -11,28 +12,48 @@ use Arachne\EntityLoader\FilterOutInterface;
 class FilterOut implements FilterOutInterface
 {
     /**
-     * @var string
+     * @var ManagerRegistry
      */
-    private $field;
+    private $managerRegistry;
 
     /**
-     * @param string $field
+     * @var string[]
      */
-    public function __construct($field)
+    private $identifiers;
+
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        $this->field = $field;
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
-     * @param object $entity
-     *
-     * @return string
+     * {@inheritdoc}
+     */
+    public function supports(string $type): bool
+    {
+        $manager = $this->managerRegistry->getManagerForClass($type);
+
+        if ($manager) {
+            $fields = $manager->getClassMetadata($type)->getIdentifierFieldNames();
+            if (count($fields) !== 1 || !isset($fields[0])) {
+                return false;
+            }
+
+            $this->identifiers[$type] = $fields[0];
+        }
+
+        return (bool) $manager;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function filterOut($entity)
     {
-        $id = $entity->{'get'.$this->field}();
+        $field = $this->identifiers[get_class($entity)];
+        $id = $entity->{'get'.$field}();
         if ($id === null) {
-            throw new InvalidArgumentException("Missing value for identifier field '$this->field'.");
+            throw new InvalidArgumentException(sprintf('Missing value for identifier field "%s".', $field));
         }
 
         return (string) $id;
