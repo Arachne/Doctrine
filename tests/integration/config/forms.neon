@@ -1,5 +1,5 @@
 extensions:
-    arachne.servicecollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
+    arachne.serviceCollections: Arachne\ServiceCollections\DI\ServiceCollectionsExtension
     arachne.doctrine: Arachne\Doctrine\DI\DoctrineExtension
     arachne.forms: Arachne\Forms\DI\FormsExtension
     kdyby.annotations: Kdyby\Annotations\DI\AnnotationsExtension
