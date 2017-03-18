@@ -37,7 +37,7 @@ class DoctrineExtension extends CompilerExtension
 
         $builder = $this->getContainerBuilder();
 
-        if ($this->getExtension(EntityLoaderExtension::class, false)) {
+        if ($this->getExtension(EntityLoaderExtension::class)) {
             $builder->addDefinition($this->prefix('validator.entityLoader.filterIn'))
                 ->setClass(FilterIn::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_IN);
@@ -47,7 +47,7 @@ class DoctrineExtension extends CompilerExtension
                 ->addTag(EntityLoaderExtension::TAG_FILTER_OUT);
         }
 
-        if ($this->getExtension(ValidatorExtension::class, false)) {
+        if ($this->getExtension(ValidatorExtension::class)) {
             $builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
                 ->setClass(UniqueEntityValidator::class)
                 ->addTag(
@@ -71,9 +71,9 @@ class DoctrineExtension extends CompilerExtension
                         ]
                     );
 
-                if ($this->getExtension(EventManagerExtension::class, false)) {
+                if ($this->getExtension(EventManagerExtension::class)) {
                     $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
-                } elseif ($this->getExtension(EventsExtension::class, false)) {
+                } elseif ($this->getExtension(EventsExtension::class)) {
                     $listener->addTag(EventsExtension::TAG_SUBSCRIBER);
                 } else {
                     throw new AssertionException('The "validateOnFlush" option requires either Arachne/EventManager or Kdyby/Events to be installed.');
@@ -83,7 +83,7 @@ class DoctrineExtension extends CompilerExtension
             throw new AssertionException('The "validateOnFlush" option requires Kdyby/Validator to be installed.');
         }
 
-        if ($this->getExtension(FormsExtension::class, false)) {
+        if ($this->getExtension(FormsExtension::class)) {
             $builder->addDefinition($this->prefix('forms.typeGuesser'))
                 ->setClass(DoctrineOrmTypeGuesser::class)
                 ->addTag(FormsExtension::TAG_TYPE_GUESSER)
@@ -103,22 +103,15 @@ class DoctrineExtension extends CompilerExtension
 
     /**
      * @param string $class
-     * @param bool   $need
      *
      * @return CompilerExtension|null
      */
-    private function getExtension(string $class, bool $need = true): ?CompilerExtension
+    private function getExtension(string $class): ?CompilerExtension
     {
         $extensions = $this->compiler->getExtensions($class);
 
         if (!$extensions) {
-            if (!$need) {
-                return null;
-            }
-
-            throw new AssertionException(
-                sprintf('Extension "%s" requires "%s" to be installed.', get_class($this), $class)
-            );
+            return null;
         }
 
         return reset($extensions);
