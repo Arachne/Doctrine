@@ -2,6 +2,7 @@
 
 namespace Tests\Functional;
 
+use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\EntityLoader\EntityLoader;
 use Codeception\Test\Unit;
 use Tests\Functional\Fixtures\Article;
@@ -9,6 +10,11 @@ use Tests\Functional\Fixtures\ArticleQuery;
 
 class FilterInTest extends Unit
 {
+    /**
+     * @var NetteDIModule
+     */
+    protected $tester;
+
     public function testId()
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);

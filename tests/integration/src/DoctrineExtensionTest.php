@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use Arachne\Codeception\Module\NetteDIModule;
 use Codeception\Test\Unit;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -15,6 +16,11 @@ use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
  */
 class DoctrineExtensionTest extends Unit
 {
+    /**
+     * @var NetteDIModule
+     */
+    protected $tester;
+
     public function testUniqueConstraintValidator()
     {
         $this->tester->useConfigFiles(['config/validator.neon']);

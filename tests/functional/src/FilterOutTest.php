@@ -2,6 +2,7 @@
 
 namespace Tests\Functional;
 
+use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\EntityLoader\EntityUnloader;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +11,11 @@ use Tests\Functional\Fixtures\Page;
 
 class FilterOutTest extends Unit
 {
+    /**
+     * @var NetteDIModule
+     */
+    protected $tester;
+
     public function testId()
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);

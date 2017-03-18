@@ -4,7 +4,7 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\EntityLoader\FilterInInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Nette\Application\BadRequestException;
 
 /**
@@ -18,7 +18,7 @@ class FilterIn implements FilterInInterface
     private $managerRegistry;
 
     /**
-     * @var EntityRepository[]
+     * @var ObjectRepository[]
      */
     private $repositories;
 

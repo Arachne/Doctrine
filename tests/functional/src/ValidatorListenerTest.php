@@ -2,12 +2,18 @@
 
 namespace Tests\Functional;
 
+use Arachne\Codeception\Module\NetteDIModule;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManager;
 use Tests\Functional\Fixtures\Article;
 
 class ValidatorListenerTest extends Unit
 {
+    /**
+     * @var NetteDIModule
+     */
+    protected $tester;
+
     public function testFlushInsertSuccess()
     {
         $em = $this->tester->grabService(EntityManager::class);
