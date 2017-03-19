@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "arachne/codeception": "^0.7.5",
-        "arachne/entity-loader": "^0.11.0@dev",
+        "arachne/entity-loader": "^0.11.0@beta",
         "arachne/event-manager": "^0.1.0",
         "arachne/forms": "^0.3.0",
         "arachne/service-collections": "^0.1.0",
@@ -45,14 +45,14 @@
         }
     },
     "scripts": {
-        "all": [
+        "tools": "sh composer-tools.sh",
+        "ci": [
             "@fix",
             "@analyse",
             "@test"
         ],
-        "tools": "sh composer-tools.sh",
         "fix": "\"vendor-tools/bin/php-cs-fixer\" fix",
-        "analyse": "\"vendor-tools/bin/phpstan\" analyse --no-progress --level=4 --configuration=phpstan.neon src tests",
+        "analyse": "\"vendor-tools/bin/phpstan\" analyse --no-progress --level=5 --configuration=phpstan.neon src tests",
         "test": [
             "\"vendor/bin/codecept\" build",
             "\"vendor/bin/codecept\" run --debug"
