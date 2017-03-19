@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arachne\Doctrine\DI;
 
 use Arachne\Doctrine\EntityLoader\FilterIn;
