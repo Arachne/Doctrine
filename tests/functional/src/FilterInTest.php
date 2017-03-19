@@ -7,6 +7,7 @@ namespace Tests\Functional;
 use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\EntityLoader\EntityLoader;
 use Codeception\Test\Unit;
+use Nette\Application\BadRequestException;
 use Tests\Functional\Fixtures\Article;
 use Tests\Functional\Fixtures\ArticleQuery;
 
@@ -33,13 +34,14 @@ class FilterInTest extends Unit
         $this->assertSame($article->getId(), 1);
     }
 
-    /**
-     * @expectedException \Nette\Application\BadRequestException
-     * @expectedExceptionMessage Desired entity of type "Tests\Functional\Fixtures\Article" could not be found.
-     */
     public function testError()
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
-        $entityLoader->filterIn(Article::class, 2);
+        try {
+            $entityLoader->filterIn(Article::class, 2);
+            self::fail();
+        } catch (BadRequestException $e) {
+            self::assertSame('Desired entity of type "Tests\Functional\Fixtures\Article" could not be found.', $e->getMessage());
+        }
     }
 }

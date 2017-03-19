@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use Arachne\Codeception\Module\NetteDIModule;
+use Arachne\Doctrine\Exception\EntityValidationException;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManager;
 use Tests\Functional\Fixtures\Article;
@@ -25,17 +26,18 @@ class ValidatorListenerTest extends Unit
         $em->flush();
     }
 
-    /**
-     * @expectedException \Arachne\Doctrine\Exception\EntityValidationException
-     * @expectedExceptionMessageRegExp ~^Entity "Tests\\Functional\\Fixtures\\Article@[a-z0-9]++" is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
-     */
     public function testFlushInsertException()
     {
         $em = $this->tester->grabService(EntityManager::class);
         $article = new Article();
         $article->setName('');
         $em->persist($article);
-        $em->flush();
+        try {
+            $em->flush();
+            self::fail();
+        } catch (EntityValidationException $e) {
+            self::assertRegExp('~^Entity "Tests\\\\Functional\\\\Fixtures\\\\Article@[a-z0-9]++" is not valid: Object\\(Tests\\\\Functional\\\\Fixtures\\\\Article\\)\\.name:\\s++This value should not be blank\\. \\(code [a-z0-9-]++\\)$~', $e->getMessage());
+        }
     }
 
     public function testFlushUpdateSuccess()
@@ -49,10 +51,6 @@ class ValidatorListenerTest extends Unit
         $em->flush();
     }
 
-    /**
-     * @expectedException \Arachne\Doctrine\Exception\EntityValidationException
-     * @expectedExceptionMessageRegExp ~^Entity "Tests\\Functional\\Fixtures\\Article@[a-z0-9]++" is not valid: Object\(Tests\\Functional\\Fixtures\\Article\)\.name:\s++This value should not be blank\. \(code [a-z0-9-]++\)$~
-     */
     public function testFlushUpdateException()
     {
         $em = $this->tester->grabService(EntityManager::class);
@@ -61,6 +59,11 @@ class ValidatorListenerTest extends Unit
         $em->persist($article);
         $em->flush();
         $article->setName('');
-        $em->flush();
+        try {
+            $em->flush();
+            self::fail();
+        } catch (EntityValidationException $e) {
+            self::assertRegExp('~^Entity "Tests\\\\Functional\\\\Fixtures\\\\Article@[a-z0-9]++" is not valid: Object\\(Tests\\\\Functional\\\\Fixtures\\\\Article\\)\\.name:\\s++This value should not be blank\\. \\(code [a-z0-9-]++\\)$~', $e->getMessage());
+        }
     }
 }

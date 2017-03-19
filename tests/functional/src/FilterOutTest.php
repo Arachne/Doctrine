@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Functional;
 
 use Arachne\Codeception\Module\NetteDIModule;
+use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\EntityUnloader;
 use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,13 +52,14 @@ class FilterOutTest extends Unit
         $this->assertSame($id, '1');
     }
 
-    /**
-     * @expectedException \Arachne\Doctrine\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Missing value for identifier field "id".
-     */
     public function testError()
     {
         $entityUnloader = $this->tester->grabService(EntityUnloader::class);
-        $entityUnloader->filterOut(new Article());
+        try {
+            $entityUnloader->filterOut(new Article());
+            self::fail();
+        } catch (InvalidArgumentException $e) {
+            self::assertSame('Missing value for identifier field "id".', $e->getMessage());
+        }
     }
 }
