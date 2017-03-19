@@ -32,7 +32,7 @@ class DoctrineExtension extends CompilerExtension
         'validateOnFlush' => false,
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         $this->validateConfig($this->defaults);
         Validators::assertField($this->config, 'validateOnFlush', 'bool|list');

@@ -23,14 +23,14 @@ class DoctrineExtensionTest extends Unit
      */
     protected $tester;
 
-    public function testUniqueConstraintValidator()
+    public function testUniqueConstraintValidator(): void
     {
         $this->tester->useConfigFiles(['config/validator.neon']);
         $factory = $this->tester->grabService(ConstraintValidatorFactoryInterface::class);
         self::assertInstanceOf(UniqueEntityValidator::class, $factory->getInstance(new UniqueEntity(['fields' => ['id']])));
     }
 
-    public function testEntityType()
+    public function testEntityType(): void
     {
         $this->tester->useConfigFiles(['config/forms.neon']);
         $registry = $this->tester->grabService(FormRegistryInterface::class);

@@ -19,7 +19,7 @@ class FilterOutTest extends Unit
      */
     protected $tester;
 
-    public function testId()
+    public function testId(): void
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);
         $article = $em->find(Article::class, 1);
@@ -29,7 +29,7 @@ class FilterOutTest extends Unit
         $this->assertSame($id, '1');
     }
 
-    public function testProxy()
+    public function testProxy(): void
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);
 
@@ -52,7 +52,7 @@ class FilterOutTest extends Unit
         $this->assertSame($id, '1');
     }
 
-    public function testError()
+    public function testError(): void
     {
         $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         try {

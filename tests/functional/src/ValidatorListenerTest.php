@@ -17,7 +17,7 @@ class ValidatorListenerTest extends Unit
      */
     protected $tester;
 
-    public function testFlushInsertSuccess()
+    public function testFlushInsertSuccess(): void
     {
         $em = $this->tester->grabService(EntityManager::class);
         $article = new Article();
@@ -26,7 +26,7 @@ class ValidatorListenerTest extends Unit
         $em->flush();
     }
 
-    public function testFlushInsertException()
+    public function testFlushInsertException(): void
     {
         $em = $this->tester->grabService(EntityManager::class);
         $article = new Article();
@@ -40,7 +40,7 @@ class ValidatorListenerTest extends Unit
         }
     }
 
-    public function testFlushUpdateSuccess()
+    public function testFlushUpdateSuccess(): void
     {
         $em = $this->tester->grabService(EntityManager::class);
         $article = new Article();
@@ -51,7 +51,7 @@ class ValidatorListenerTest extends Unit
         $em->flush();
     }
 
-    public function testFlushUpdateException()
+    public function testFlushUpdateException(): void
     {
         $em = $this->tester->grabService(EntityManager::class);
         $article = new Article();

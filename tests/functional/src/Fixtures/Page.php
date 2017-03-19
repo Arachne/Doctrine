@@ -22,7 +22,7 @@ class Page
      */
     private $article;
 
-    public function getArticle()
+    public function getArticle(): Article
     {
         return $this->article;
     }

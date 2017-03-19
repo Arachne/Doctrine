@@ -18,7 +18,7 @@ class FilterInTest extends Unit
      */
     protected $tester;
 
-    public function testId()
+    public function testId(): void
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, 1);
@@ -26,7 +26,7 @@ class FilterInTest extends Unit
         $this->assertSame($article->getId(), 1);
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, new ArticleQuery());
@@ -34,7 +34,7 @@ class FilterInTest extends Unit
         $this->assertSame($article->getId(), 1);
     }
 
-    public function testError()
+    public function testError(): void
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
         try {

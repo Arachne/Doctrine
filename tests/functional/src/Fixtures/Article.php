@@ -32,17 +32,17 @@ class Article
      */
     private $page;
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPage()
+    public function getPage(): Page
     {
         return $this->page;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
