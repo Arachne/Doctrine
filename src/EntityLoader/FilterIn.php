@@ -6,7 +6,7 @@ namespace Arachne\Doctrine\EntityLoader;
 
 use Arachne\EntityLoader\FilterInInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Nette\Application\BadRequestException;
 
 /**
@@ -20,7 +20,7 @@ class FilterIn implements FilterInInterface
     private $managerRegistry;
 
     /**
-     * @var ObjectRepository[]
+     * @var EntityRepository[]
      */
     private $repositories;
 
@@ -36,11 +36,18 @@ class FilterIn implements FilterInInterface
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
 
-        if ($manager) {
-            $this->repositories[$type] = $manager->getRepository($type);
+        if (!$manager) {
+            return false;
         }
 
-        return (bool) $manager;
+        $repository = $manager->getRepository($type);
+        if (!$repository instanceof EntityRepository) {
+            return false;
+        }
+
+        $this->repositories[$type] = $repository;
+
+        return true;
     }
 
     /**

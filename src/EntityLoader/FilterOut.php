@@ -35,16 +35,18 @@ class FilterOut implements FilterOutInterface
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
 
-        if ($manager) {
-            $fields = $manager->getClassMetadata($type)->getIdentifierFieldNames();
-            if (count($fields) !== 1 || !isset($fields[0])) {
-                return false;
-            }
-
-            $this->identifiers[$type] = $fields[0];
+        if (!$manager) {
+            return false;
         }
 
-        return (bool) $manager;
+        $fields = $manager->getClassMetadata($type)->getIdentifierFieldNames();
+        if (count($fields) !== 1 || !isset($fields[0])) {
+            return false;
+        }
+
+        $this->identifiers[$type] = $fields[0];
+
+        return true;
     }
 
     /**
