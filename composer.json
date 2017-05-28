@@ -26,7 +26,7 @@
         "arachne/event-manager": "^0.1.0",
         "arachne/forms": "^0.3.0",
         "arachne/service-collections": "^0.1.0",
-        "codeception/codeception": "^2.2.0",
+        "codeception/codeception": "^2.3.2",
         "kdyby/console": "^2.4.0",
         "kdyby/doctrine": "^3.0.0",
         "kdyby/events": "^3.0.0",
