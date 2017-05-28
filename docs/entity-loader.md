@@ -4,7 +4,7 @@ Entities as presenter parameters
 To use entities as presenter parameters you'll need both Arachne/EntityLoader and Arachne/Doctrine:
 
 ```
-$ composer require arachne/entity-loader arachne/doctrine
+composer require arachne/entity-loader arachne/doctrine
 ```
 
 Then add the necessary extensions into your config.neon:
