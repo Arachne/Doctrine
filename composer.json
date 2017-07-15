@@ -22,9 +22,9 @@
     },
     "require-dev": {
         "arachne/codeception": "^0.7.5",
-        "arachne/entity-loader": "^0.11.0@beta",
-        "arachne/event-manager": "^0.1.0",
-        "arachne/forms": "^0.3.0",
+        "arachne/entity-loader": "^0.11.0",
+        "arachne/event-manager": "^0.2.0",
+        "arachne/forms": "^0.4.0",
         "arachne/service-collections": "^0.1.0",
         "codeception/codeception": "^2.3.2",
         "kdyby/console": "^2.4.0",
