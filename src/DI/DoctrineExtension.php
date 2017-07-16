@@ -40,11 +40,11 @@ class DoctrineExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         if ($this->getExtension(EntityLoaderExtension::class)) {
-            $builder->addDefinition($this->prefix('validator.entityLoader.filterIn'))
+            $builder->addDefinition($this->prefix('entityLoader.filterIn'))
                 ->setClass(FilterIn::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_IN);
 
-            $builder->addDefinition($this->prefix('validator.entityLoader.filterOut'))
+            $builder->addDefinition($this->prefix('entityLoader.filterOut'))
                 ->setClass(FilterOut::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_OUT);
         }
