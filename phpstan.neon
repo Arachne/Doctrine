@@ -7,4 +7,3 @@ parameters:
         - %rootDir%/../../../tests/_*
 
     ignoreErrors:
-        - '#^Calling method [a-zA-Z]++\(\) on possibly nullable type Doctrine\\Common\\Persistence\\ObjectManager\|null#'
