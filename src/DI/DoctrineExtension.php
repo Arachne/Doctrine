@@ -41,17 +41,17 @@ class DoctrineExtension extends CompilerExtension
 
         if ($this->getExtension(EntityLoaderExtension::class)) {
             $builder->addDefinition($this->prefix('entityLoader.filterIn'))
-                ->setClass(FilterIn::class)
+                ->setType(FilterIn::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_IN);
 
             $builder->addDefinition($this->prefix('entityLoader.filterOut'))
-                ->setClass(FilterOut::class)
+                ->setType(FilterOut::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_OUT);
         }
 
         if ($this->getExtension(ValidatorExtension::class)) {
             $builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
-                ->setClass(UniqueEntityValidator::class)
+                ->setType(UniqueEntityValidator::class)
                 ->addTag(
                     ValidatorExtension::TAG_CONSTRAINT_VALIDATOR,
                     [
@@ -61,12 +61,12 @@ class DoctrineExtension extends CompilerExtension
                 );
 
             $builder->addDefinition($this->prefix('validator.initializer'))
-                ->setClass(DoctrineInitializer::class)
+                ->setType(DoctrineInitializer::class)
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
             if ($this->config['validateOnFlush']) {
                 $listener = $builder->addDefinition($this->prefix('validator.validatorListener'))
-                    ->setClass(ValidatorListener::class)
+                    ->setType(ValidatorListener::class)
                     ->setArguments(
                         [
                             'groups' => is_array($this->config['validateOnFlush']) ? $this->config['validateOnFlush'] : null,
@@ -87,12 +87,12 @@ class DoctrineExtension extends CompilerExtension
 
         if ($this->getExtension(FormsExtension::class)) {
             $builder->addDefinition($this->prefix('forms.typeGuesser'))
-                ->setClass(DoctrineOrmTypeGuesser::class)
+                ->setType(DoctrineOrmTypeGuesser::class)
                 ->addTag(FormsExtension::TAG_TYPE_GUESSER)
                 ->setAutowired(false);
 
             $builder->addDefinition($this->prefix('forms.type.entity'))
-                ->setClass(EntityType::class)
+                ->setType(EntityType::class)
                 ->addTag(
                     FormsExtension::TAG_TYPE,
                     [
