@@ -32,9 +32,6 @@ class ValidatorListener implements EventSubscriber
         $this->groups = $groups;
     }
 
-    /**
-     * @return array
-     */
     public function getSubscribedEvents(): array
     {
         return [
