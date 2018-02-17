@@ -26,8 +26,8 @@ before_script:
 script:
     - composer validate --strict
     - composer outdated --direct --strict
-    - vendor-tools/bin/php-cs-fixer fix --dry-run
-    - vendor-tools/bin/phpstan analyse --level=max --configuration=phpstan.neon src tests
+    - vendor/bin/php-cs-fixer fix --dry-run
+    - vendor/bin/phpstan analyse --level=max --configuration=phpstan.neon src tests
     - vendor/bin/codecept run $coverage
 
 after_success:

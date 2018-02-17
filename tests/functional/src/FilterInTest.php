@@ -4,20 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\EntityLoader\EntityLoader;
-use Codeception\Test\Unit;
 use Nette\Application\BadRequestException;
 use Tests\Functional\Fixtures\Article;
 use Tests\Functional\Fixtures\ArticleQuery;
 
-class FilterInTest extends Unit
+class FilterInTest extends DatabaseTest
 {
-    /**
-     * @var NetteDIModule
-     */
-    protected $tester;
-
     public function testId(): void
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);

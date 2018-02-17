@@ -21,6 +21,8 @@ kdyby.events:
 kdyby.doctrine:
     driver: pdo_sqlite
     memory: true
+    metadata:
+        Tests\Functional\Fixtures: %appDir%
 
 arachne.doctrine:
     validateOnFlush: true

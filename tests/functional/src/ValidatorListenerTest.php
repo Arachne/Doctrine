@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\Doctrine\Exception\EntityValidationException;
-use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManager;
 use Tests\Functional\Fixtures\Article;
 
-class ValidatorListenerTest extends Unit
+class ValidatorListenerTest extends DatabaseTest
 {
-    /**
-     * @var NetteDIModule
-     */
-    protected $tester;
-
     public function testFlushInsertSuccess(): void
     {
         $em = $this->tester->grabService(EntityManager::class);

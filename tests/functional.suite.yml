@@ -8,9 +8,6 @@ modules:
         - Arachne\Codeception\Module\NetteDIModule:
             tempDir: ../_temp/functional
             removeDefaultExtensions: true
+            newContainerForEachTest: true
             configFiles:
                 - config/config.neon
-        - Arachne\Codeception\Module\DoctrineModule:
-            loadFiles:
-                - data/structure.sql
-                - data/data.sql

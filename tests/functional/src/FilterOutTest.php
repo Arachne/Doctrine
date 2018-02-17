@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
-use Arachne\Codeception\Module\NetteDIModule;
 use Arachne\Doctrine\Exception\InvalidArgumentException;
 use Arachne\EntityLoader\EntityUnloader;
-use Codeception\Test\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use Tests\Functional\Fixtures\Article;
 use Tests\Functional\Fixtures\Page;
 
-class FilterOutTest extends Unit
+class FilterOutTest extends DatabaseTest
 {
-    /**
-     * @var NetteDIModule
-     */
-    protected $tester;
-
     public function testId(): void
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);

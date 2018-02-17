@@ -26,6 +26,9 @@ class ValidatorListener implements EventSubscriber
      */
     private $groups;
 
+    /**
+     * @param string[]|null $groups
+     */
     public function __construct(ValidatorInterface $validator, ?array $groups = null)
     {
         $this->validator = $validator;
