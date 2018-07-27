@@ -36,7 +36,7 @@ class FilterIn implements FilterInInterface
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
 
-        if (!$manager) {
+        if ($manager === null) {
             return false;
         }
 

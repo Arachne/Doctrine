@@ -39,7 +39,7 @@ class DoctrineExtension extends CompilerExtension
 
         $builder = $this->getContainerBuilder();
 
-        if ($this->getExtension(EntityLoaderExtension::class)) {
+        if ($this->getExtension(EntityLoaderExtension::class) !== null) {
             $builder->addDefinition($this->prefix('entityLoader.filterIn'))
                 ->setType(FilterIn::class)
                 ->addTag(EntityLoaderExtension::TAG_FILTER_IN);
@@ -49,7 +49,7 @@ class DoctrineExtension extends CompilerExtension
                 ->addTag(EntityLoaderExtension::TAG_FILTER_OUT);
         }
 
-        if ($this->getExtension(ValidatorExtension::class)) {
+        if ($this->getExtension(ValidatorExtension::class) !== null) {
             $builder->addDefinition($this->prefix('validator.constraint.uniqueEntity'))
                 ->setType(UniqueEntityValidator::class)
                 ->addTag(
@@ -64,7 +64,7 @@ class DoctrineExtension extends CompilerExtension
                 ->setType(DoctrineInitializer::class)
                 ->addTag(ValidatorExtension::TAG_INITIALIZER);
 
-            if ($this->config['validateOnFlush']) {
+            if ($this->config['validateOnFlush'] === true) {
                 $listener = $builder->addDefinition($this->prefix('validator.validatorListener'))
                     ->setType(ValidatorListener::class)
                     ->setArguments(
@@ -73,19 +73,19 @@ class DoctrineExtension extends CompilerExtension
                         ]
                     );
 
-                if ($this->getExtension(EventManagerExtension::class)) {
+                if ($this->getExtension(EventManagerExtension::class) !== null) {
                     $listener->addTag(EventManagerExtension::TAG_SUBSCRIBER);
-                } elseif ($this->getExtension(EventsExtension::class)) {
+                } elseif ($this->getExtension(EventsExtension::class) !== null) {
                     $listener->addTag(EventsExtension::TAG_SUBSCRIBER);
                 } else {
                     throw new AssertionException('The "validateOnFlush" option requires either Arachne/EventManager or Kdyby/Events to be installed.');
                 }
             }
-        } elseif ($this->config['validateOnFlush']) {
+        } elseif ($this->config['validateOnFlush'] === true) {
             throw new AssertionException('The "validateOnFlush" option requires Kdyby/Validator to be installed.');
         }
 
-        if ($this->getExtension(FormsExtension::class)) {
+        if ($this->getExtension(FormsExtension::class) !== null) {
             $builder->addDefinition($this->prefix('forms.typeGuesser'))
                 ->setType(DoctrineOrmTypeGuesser::class)
                 ->addTag(FormsExtension::TAG_TYPE_GUESSER)
@@ -107,7 +107,7 @@ class DoctrineExtension extends CompilerExtension
     {
         $extensions = $this->compiler->getExtensions($class);
 
-        if (!$extensions) {
+        if ($extensions === []) {
             return null;
         }
 

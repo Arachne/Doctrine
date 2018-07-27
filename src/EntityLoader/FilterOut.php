@@ -35,7 +35,7 @@ class FilterOut implements FilterOutInterface
     {
         $manager = $this->managerRegistry->getManagerForClass($type);
 
-        if (!$manager) {
+        if ($manager === null) {
             return false;
         }
 
@@ -52,10 +52,10 @@ class FilterOut implements FilterOutInterface
     /**
      * {@inheritdoc}
      */
-    public function filterOut($entity)
+    public function filterOut($value): string
     {
-        $field = $this->identifiers[get_class($entity)];
-        $id = $entity->{'get'.$field}();
+        $field = $this->identifiers[get_class($value)];
+        $id = $value->{'get'.$field}();
         if ($id === null) {
             throw new InvalidArgumentException(sprintf('Missing value for identifier field "%s".', $field));
         }

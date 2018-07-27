@@ -10,7 +10,7 @@ use Exception;
 
 class ArticleQuery implements QueryInterface
 {
-    public function getEntity(EntityRepository $repository)
+    public function getEntity(EntityRepository $repository): Article
     {
         try {
             $qb = $repository->createQueryBuilder('a');

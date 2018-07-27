@@ -15,7 +15,7 @@ abstract class DatabaseTest extends Unit
      */
     protected $tester;
 
-    protected function _before()
+    protected function _before(): void
     {
         $connection = $this->tester->grabService(Connection::class);
         $connection->executeQuery('CREATE TABLE article (id INTEGER NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id));');

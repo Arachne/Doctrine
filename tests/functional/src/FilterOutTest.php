@@ -16,10 +16,10 @@ class FilterOutTest extends DatabaseTest
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);
         $article = $em->find(Article::class, 1);
-        $this->assertInstanceOf(Article::class, $article);
+        self::assertInstanceOf(Article::class, $article);
         $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
-        $this->assertSame($id, '1');
+        self::assertSame($id, '1');
     }
 
     public function testProxy(): void
@@ -37,12 +37,12 @@ class FilterOutTest extends DatabaseTest
             ->getSingleResult();
 
         $article = $page->getArticle();
-        $this->assertInstanceOf(Article::class, $article);
-        $this->assertNotEquals(Article::class, get_class($article));
+        self::assertInstanceOf(Article::class, $article);
+        self::assertNotEquals(Article::class, get_class($article));
 
         $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
-        $this->assertSame($id, '1');
+        self::assertSame($id, '1');
     }
 
     public function testError(): void

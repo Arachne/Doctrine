@@ -15,16 +15,16 @@ class FilterInTest extends DatabaseTest
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, 1);
-        $this->assertInstanceOf(Article::class, $article);
-        $this->assertSame($article->getId(), 1);
+        self::assertInstanceOf(Article::class, $article);
+        self::assertSame($article->getId(), 1);
     }
 
     public function testQuery(): void
     {
         $entityLoader = $this->tester->grabService(EntityLoader::class);
         $article = $entityLoader->filterIn(Article::class, new ArticleQuery());
-        $this->assertInstanceOf(Article::class, $article);
-        $this->assertSame($article->getId(), 1);
+        self::assertInstanceOf(Article::class, $article);
+        self::assertSame($article->getId(), 1);
     }
 
     public function testError(): void

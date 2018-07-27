@@ -8,6 +8,7 @@ use Arachne\Doctrine\Exception\EntityValidationException;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -58,17 +59,21 @@ class ValidatorListener implements EventSubscriber
         }
     }
 
+    /**
+     * @param object $entity
+     */
     private function validateEntity($entity): void
     {
+        /** @var ConstraintViolationList $violations */
         $violations = $this->validator->validate($entity, null, $this->groups);
 
-        if (!$violations->count()) {
+        if ($violations->count() === 0) {
             return;
         }
 
         // Copied from UnitOfWork::objToStr().
         $entityIdentifier = method_exists($entity, '__toString') ? (string) $entity : get_class($entity).'@'.spl_object_hash($entity);
 
-        throw new EntityValidationException(sprintf('Entity "%s" is not valid: %s', $entityIdentifier, $violations));
+        throw new EntityValidationException(sprintf('Entity "%s" is not valid: %s', $entityIdentifier, (string) $violations));
     }
 }
