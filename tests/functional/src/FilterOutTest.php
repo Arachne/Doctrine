@@ -16,7 +16,7 @@ class FilterOutTest extends DatabaseTest
     {
         $em = $this->tester->grabService(EntityManagerInterface::class);
         $article = $em->find(Article::class, 1);
-        self::assertInstanceOf(Article::class, $article);
+        assert($article instanceof Article);
         $entityUnloader = $this->tester->grabService(EntityUnloader::class);
         $id = $entityUnloader->filterOut($article);
         self::assertSame($id, '1');
