@@ -9,3 +9,4 @@ parameters:
         - %rootDir%/../../../tests/_*
 
     ignoreErrors:
+        - "~Variable method call on mixed~"

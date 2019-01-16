@@ -34,9 +34,9 @@
         "kdyby/events": "^3.1.2",
         "kdyby/translation": "^2.5.0",
         "kdyby/validator": "^0.6.0",
-        "phpstan/phpstan": "^0.10.0",
-        "phpstan/phpstan-nette": "^0.10.0",
-        "phpstan/phpstan-strict-rules": "^0.10.0",
+        "phpstan/phpstan": "^0.11.0",
+        "phpstan/phpstan-nette": "^0.11.0",
+        "phpstan/phpstan-strict-rules": "^0.11.0",
         "symfony/doctrine-bridge": "^3.0.0 || ^4.0.0"
     },
     "autoload": {
